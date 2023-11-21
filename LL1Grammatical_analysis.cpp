@@ -7,6 +7,7 @@ extern const char* readFileName;
 extern const char* writeFileName;
 extern int VNnumber;
 
+//test
 int main() {
 	FILE* fp = fopen(readFileName, "r");
 	//无判断 文件打开异常会中止程序
