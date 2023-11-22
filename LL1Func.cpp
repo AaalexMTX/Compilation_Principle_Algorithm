@@ -19,6 +19,7 @@ int getBC(int pos, char line[]) {
 //文件扫描录入文法
 void scan(char lineToken[]) {
 	string product = lineToken;
+	//记录产生式的 左部 和 右部候选式
 	string product_left, product_right;
 	int startPos = 0, length = 0;
 	if (product.find('-', startPos) != string::npos) {
@@ -47,17 +48,18 @@ void scan(char lineToken[]) {
 			length = 0;
 		}
 	}
-	//读入Vn Vt
-	for (int i = 0;i < sizeof(lineToken) / sizeof(lineToken[0]); i++) {
-		if (lineToken[i] == '\n' || lineToken[i] == '\0') { break; }
-		if (regex_match(string(1, lineToken[i]), N)) {
-			pair<string, int>VNCount(string(1, lineToken[i]), 1);
-			grammer.Vn.insert(VNCount);
+	//读入Vn Vt -- 无法读入开始时文法 以A' 等两位做 非终结符的
+	for (int i = 0;i < product.length(); i++) {
+		if (product[i] == '\n' || product[i] == '\0') { break; }
+
+		string checkString = string(1, product[i]);
+		if (regex_match(checkString, N)) {
+			grammer.Vn[checkString] = 1;
 			// Vn集合中的一个元素 是开始符号S
-			if (grammer.S == "") { grammer.S = string(1, lineToken[i]); }
+			if (grammer.S == "") { grammer.S = checkString; }
 		}
-		else if (regex_match(string(1, lineToken[i]), T)) {
-			grammer.Vt.insert(string(1, lineToken[i]));
+		else if (regex_match(checkString, T)) {
+			grammer.Vt.insert(checkString);
 		}
 	}
 }
@@ -77,8 +79,8 @@ void print() {
 	}
 	cout << endl << "开始符号  S:  " << grammer.S;
 	cout << endl << "  终结符 Vn:  ";
-	for (set<pair<string, int>>::iterator it = grammer.Vn.begin(); it != grammer.Vn.end();it++) {
-		cout << (*it).first << " ";
+	for (unordered_map<string, int>::iterator it = grammer.Vn.begin(); it != grammer.Vn.end();it++) {
+		cout << it->first << " ";
 	}
 	cout << endl << "非终结符 Vt:  ";
 	for (set<string>::iterator it = grammer.Vt.begin(); it != grammer.Vt.end();it++) {
@@ -90,7 +92,7 @@ void print() {
 void directLeftRecursion(string proLeft, vector<string>proRight) {
 	vector<string>originPro, newPro;
 	for (vector<string>::iterator it = proRight.begin(); it < proRight.end(); it++) {
-		//检测是否发生左递归
+		//测左递归
 		if ((*it).find(proLeft) == 0) {
 			//取 候选式非左侧子串的部分
 			string backSub = (*it).substr(proLeft.length());
@@ -100,39 +102,35 @@ void directLeftRecursion(string proLeft, vector<string>proRight) {
 			originPro.push_back(*it);
 		}
 	}
-	//消除左递归后更新文法
+	//非空说明含有左递归 更新文法
 	if (!newPro.empty()) {
 		//清空旧产生式
 		grammer.P[proLeft].clear();
-		//Vn中加入新的(是否需要遍历查重 再插)
-		pair<string, int>newVn(proLeft + "'", 1);
-		grammer.Vn.insert(newVn);
-		//进了if 就表示多了一个分号 遍历找对应的Vn<pair>对
-		set<pair<string, int>>::iterator it;
-		for (it = grammer.Vn.begin();it != grammer.Vn.end();it++) {
-			if ((*it).first == proLeft) {
-				break;
-			}
-		}
-		string FHCount = string((*it).second, '\'');	//分号数量
+
+		//更新分号的数量统一存在 A中  如 A' A''  -> A中记录下次添加'的数量
+		unordered_map<string, int>::iterator itProLeft = grammer.Vn.find(string(1,proLeft[0]));
+		string FHCount = string(itProLeft->second, '\'');
+		itProLeft->second++;
+		//加了新非终结符A'  更新Vn 
+		grammer.Vn[proLeft + FHCount] = 1;
+
+		bool endInsertEmpty = false;
 		for (vector<string>::iterator it = originPro.begin(); it < originPro.end(); it++) {
 			//不能插入形如 A-> @A'
-			if ((*it) == "@") { grammer.P[proLeft].push_back("@"); }
+			if ((*it) == "@") { endInsertEmpty = true; }
 			else {
 				// A->e  -- A->eA'
 				grammer.P[proLeft].push_back((*it) + proLeft + FHCount);
 			}
 		}
+		//特意将 @更新至末尾
+		if (endInsertEmpty) { grammer.P[proLeft].push_back("@"); }
 		for (vector<string>::iterator it = newPro.begin();it < newPro.end(); it++) {
 			// A->Abc  --  A'->bcA'
 			grammer.P[proLeft + FHCount].push_back((*it) + proLeft + FHCount);
 		}
 		//末尾添加空字
 		grammer.P[proLeft + FHCount].push_back("@");
-		//插新的 删旧的 
-		int count = (*it).second;
-		grammer.Vn.insert(pair<string, int>((*it).first, count + 1));
-		grammer.Vn.erase(*it);
 	}
 }
 
@@ -189,34 +187,26 @@ void remove_left_gene() {
 				itI->second.push_back(itJ->first + itJ->second[0]);
 			}
 			else {
-				//进了else 就表示多了一个分号 
-				set<pair<string, int>>::iterator it;
-				for (it = grammer.Vn.begin();it != grammer.Vn.end();it++) {
-					if ((*it).first == (*itI).first) {
-						break;
-					}
-				}
-				string FHCount = string((*it).second, '\'');	//分号数量
+				//进了else 就表示 需要提公因式
+				unordered_map<string, int>::iterator itProLeft = grammer.Vn.find(string(1, itI->first[0]));
+				string FHCount = string(itProLeft->second, '\'');
+				itProLeft->second++;
+				//加了新非终结符A'  更新Vn 
+				string newVN = itI->first[0] + FHCount;
+				grammer.Vn[newVN] = 1;
+
 				//给A 加上 aA' 项
-				itI->second.push_back(itJ->first + itI->first + FHCount);
+				itI->second.push_back(itJ->first + itProLeft->first + FHCount);
+				bool endInsertEmpty = false;
 				//对所有有公因式的候选式
 				for (vector<string>::iterator itJK = itJ->second.begin();itJK != itJ->second.end();itJK++) {
 					//A->ab1|ab2|a  --	A'->b1|b2|@
 					if (*itJK != "") {
-						grammer.P[itI->first + FHCount].push_back(*itJK);
+						grammer.P[newVN].push_back(*itJK);
 					}
-					else {
-						grammer.P[itI->first + FHCount].push_back("@");
-					}
+					else { endInsertEmpty = true; }
 				}
-				//Vn中插加分号的 新生成的产生式左部 -- S'
-				grammer.Vn.insert(pair<string, int>(itI->first + FHCount, 1));
-				//加新的 -- <S ,2>
-				int count = (*it).second;
-				pair<string, int>newVn((*it).first, count + 1);
-				grammer.Vn.insert(newVn);
-				//删旧的 -- <S,1>
-				grammer.Vn.erase(*it);
+				if(endInsertEmpty){ grammer.P[newVN].push_back("@"); }
 			}
 		}
 	}

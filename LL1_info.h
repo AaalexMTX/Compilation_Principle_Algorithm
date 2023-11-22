@@ -13,15 +13,15 @@ using namespace std;
 
 //文法结构
 struct grammerStruct {
-	set<string>Vt;
-	set<pair<string, int>>Vn;
 	string S;
+	set<string>Vt;
+	unordered_map<string, int>Vn;
 	unordered_map<string, vector<string>>P;
 };
 
 int getBC(int pos, char line[]);
 
-void scan(char *lineToken);
+void scan(char lineToken[]);
 
 void print();
 
