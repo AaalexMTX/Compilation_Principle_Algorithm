@@ -9,7 +9,7 @@ regex T("[a-z0-9*+()&#]");
 grammerStruct grammer;
 unordered_set<string>nullAble;
 unordered_map<string, unordered_set<string>>first, follow;
-
+unordered_map<string, string>LL1_table;
 
 int getBC(int pos, char line[]) {
 	while (line[pos] == ' ' || line[pos] == '|' || line[pos] == '\t') {
@@ -365,7 +365,40 @@ void calculate_follow() {
 
 //预测分析表的构造
 void construct_LL1Table() {
-	cout << 1;
-	
+	for (unordered_map<string, vector<string>>::iterator itP = grammer.P.begin(); itP != grammer.P.end();itP++) {
+		for (vector<string>::iterator itCandidate = itP->second.begin();itCandidate != itP->second.end();itCandidate++) {
+			//遍历产生式每个符号
+			for (int i = 0;i < (*itCandidate).length();) {
+				string fullChar = getFullChar(*itCandidate, i);
 
+				//终结符
+				if (grammer.Vn.find(fullChar) != grammer.Vn.end()) {
+					//将M 的first集 加入 分析表
+					for (unordered_set<string>::iterator itfullCharFirst = first[fullChar].begin(); itfullCharFirst != first[fullChar].end(); itfullCharFirst++) {
+						LL1_table[itP->first] = *itCandidate;
+					}
+					//非空 不继续遍历候选式了
+					if (nullAble.find(fullChar) == nullAble.end()) { break; }
+				}
+				//非终结符
+				else if (grammer.Vt.find(fullChar) != grammer.Vt.end()) {
+					LL1_table[itP->first] = *itCandidate;
+					break;
+				}
+				//@
+				else {
+					//将M 的follow集 加入 分析表
+					for (unordered_set<string>::iterator itfullCharFollow = follow[fullChar].begin(); itfullCharFollow != follow[fullChar].end();itfullCharFollow++) {
+						LL1_table[itP->first] = *itCandidate;
+					}
+				}
+				i += fullChar.length();
+			}
+		}
+	}
+
+	for (unordered_map<string, string>::iterator itLL1 = LL1_table.begin();itLL1 != LL1_table.end();itLL1++) {
+		//printf("(%s,%s)-- %s\n", (itLL1->first).first, (itLL1->first).second, itLL1->second);
+		cout << "(" << (itLL1->first) << "," << (itLL1->first) << ")" << " -- " << itLL1->second << endl;
+	}
 }
