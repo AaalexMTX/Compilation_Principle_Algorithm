@@ -7,7 +7,7 @@ extern const char* readFileName;
 extern const char* writeFileName;
 extern int VNnumber;
 
-//test
+
 int main() {
 	FILE* fp = fopen(readFileName, "r");
 	//无判断 文件打开异常会中止程序
@@ -20,12 +20,16 @@ int main() {
 		}
 	}
 	remove_left_recursion();
-	remove_left_gene();
+	remove_left_gene();	
 
-	print();
-	if (freopen(writeFileName, "w", stdout) != NULL) {
-		print();
-	}
-	fclose(stdout);
+	calculate_nullAble();
+	calculate_first();
+	calculate_follow();
+	construct_LL1Table();
+	//print();
+	//if (freopen(writeFileName, "w", stdout) != NULL) {
+	//	print();
+	//}
+	//fclose(stdout);
 	return 0;
 }

@@ -1,6 +1,5 @@
 #include"LL1_info.h"
-
-
+	
 //全局变量
 const char* readFileName = "anaTestWords01.txt";
 const char* writeFileName = "LL1resultFile.txt";
@@ -8,6 +7,9 @@ int VNnumber = 0;
 regex N("[A-Z]");
 regex T("[a-z0-9*+()&#]");
 grammerStruct grammer;
+unordered_set<string>nullAble;
+unordered_map<string, unordered_set<string>>first, follow;
+
 
 int getBC(int pos, char line[]) {
 	while (line[pos] == ' ' || line[pos] == '|' || line[pos] == '\t') {
@@ -210,4 +212,160 @@ void remove_left_gene() {
 			}
 		}
 	}
+}
+
+//得到完整符号
+string getFullChar(string candidate, int pos) {
+	int length = 1;
+	string fullVn;
+	//下一位是' 再读一位
+	for (int i = pos+1;i < candidate.length();i++) {
+		if (candidate[i] == '\'') {
+			length++;
+		}
+		else { break; }
+	}
+	return candidate.substr(pos, length);
+}
+
+//计算空集
+void calculate_nullAble() {
+	bool nullAbleChange = true;
+	while (nullAbleChange) {
+		nullAbleChange = false;
+		for (unordered_map<string, vector<string>>::iterator itProduct = grammer.P.begin();itProduct != grammer.P.end();itProduct++) {
+			for (string itCandidate : (*itProduct).second) {
+				//跳过加入nullable 的产生式
+				if (nullAble.find((*itProduct).first) != nullAble.end()) { continue; }
+
+				if (itCandidate == "@") {
+					nullAble.insert((*itProduct).first);
+					nullAbleChange = true;
+					break;
+				}
+				else {
+					//候选式全含空 也属nullable集
+					int allEmpty = 0;
+					for (int i = 0;i < itCandidate.length();) {
+						string fullVn = getFullChar(itCandidate, i);
+						if (nullAble.find(fullVn) != nullAble.end()) {
+							allEmpty++;
+						}
+						else { break; }
+						i += fullVn.length();
+					}
+					if (allEmpty == itCandidate.length()) {
+						nullAble.insert((*itProduct).first);
+						nullAbleChange = true;
+					}
+				}
+			}
+		}
+	}
+	for (string a : nullAble) {
+		cout << a;
+	}
+}
+
+//计算first集合
+void calculate_first() {
+	unordered_map<string, unordered_set<string>>firstCheck;
+	do{
+		//检测first是否更新
+		first = firstCheck;
+
+		for (unordered_map<string, vector<string>>::iterator itP = grammer.P.begin();itP != grammer.P.end();itP++) {
+			for (vector<string>::iterator itCandidate = itP->second.begin();itCandidate != itP->second.end();itCandidate++) {
+				//遍历候选式的每一个符号
+				for (int i = 0; i < (*itCandidate).length();) {
+					string fullChar = getFullChar(*itCandidate, i);
+					//非终结符
+					if(grammer.Vn.find(fullChar) != grammer.Vn.end()){
+						//将这个非终结符的first集合 insert并入产生式左部符号的first集
+						firstCheck[(*itP).first].insert(firstCheck[fullChar].begin(),firstCheck[fullChar].end());
+
+						//不能推空  直接结束
+						if (nullAble.find(fullChar) == nullAble.end()) {
+							break;
+						}
+					}
+					//非终结符 或 空
+					else {
+						firstCheck[(*itP).first].insert(fullChar);
+						break;
+					}
+					i += fullChar.length();
+				}
+			}
+		}
+	} while (firstCheck != first);
+
+	for (auto a : first) {
+		cout << a.first << "->";
+		for (string b : a.second) {
+			cout << b << " ";
+		}
+		cout << endl;
+	}
+}
+
+//计算follow集合
+void calculate_follow() {
+	unordered_map<string, unordered_set<string>>followCheck;
+	followCheck[grammer.S].insert("#");
+	do {
+		follow = followCheck;
+		for (unordered_map<string, vector<string>>::iterator itP = grammer.P.begin();itP != grammer.P.end();itP++) {
+			//temp 先拿 follow(P->first)
+			unordered_set<string>temp = followCheck[(*itP).first];
+			for (vector<string>::iterator itCandidate = itP->second.begin();itCandidate != itP->second.end();itCandidate++) {
+				//反向遍历候选式的每一个符号
+				for (int i = (*itCandidate).length()-1; i >= 0;i--) {
+					//反着遍历 可能先碰到'
+					if ((*itCandidate)[i] == '\'') {
+						continue;
+					}
+					string fullChar = getFullChar(*itCandidate, i);
+					//非终结符
+					if (grammer.Vn.find(fullChar) != grammer.Vn.end()) {
+						//follow(M) U= temp    跳过@
+						for (string symbol : temp) {
+							if (symbol != "@") {
+								followCheck[fullChar].insert(symbol);
+							}
+						}
+						
+						if (nullAble.find(fullChar) == nullAble.end()) {
+							//非空 temp = first（M)
+							temp = first[fullChar];
+						}
+						else {
+							//空 temp += first(M)
+							temp.insert(first[fullChar].begin(), first[fullChar].end());
+						}
+					}
+					//终结符 并跳过空字
+					if(grammer.Vt.find(fullChar) != grammer.Vt.end()) {
+						temp = {fullChar};
+					}
+				}
+			}
+		}
+	} while (followCheck != follow);
+
+	cout << endl << "FOLLOW" << endl;
+	for (auto a : follow) {
+		cout << a.first << "->";
+		for (string b : a.second) {
+			cout << b << " ";
+		}
+		cout << endl;
+	}
+}
+
+//预测分析表的构造
+void construct_LL1Table() {
+	cout << 1;
+	
+
 }

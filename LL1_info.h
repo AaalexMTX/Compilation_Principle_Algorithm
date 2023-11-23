@@ -6,8 +6,8 @@
 #include<vector>
 #include<set>
 #include<unordered_map>
+#include<unordered_set>
 #include<regex>
-#include<unordered_map>
 #include<utility>
 using namespace std;
 
@@ -30,3 +30,13 @@ void directLeftRecursion(string proLeft, vector<string>proRight);
 void remove_left_recursion();
 
 void remove_left_gene();
+
+string getFullChar(string candidate, int pos);
+
+void calculate_nullAble();
+
+void calculate_first();
+
+void calculate_follow();
+
+void construct_LL1Table();
