@@ -34,5 +34,8 @@
     <Text Include="anaTestWords01.txt">
       <Filter>源文件</Filter>
     </Text>
+    <Text Include="ExpressionWord.txt">
+      <Filter>源文件</Filter>
+    </Text>
   </ItemGroup>
 </Project>

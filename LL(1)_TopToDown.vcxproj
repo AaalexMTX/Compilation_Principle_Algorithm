@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="anaTestWords01.txt" />
+    <Text Include="ExpressionWord.txt" />
     <Text Include="LL1ResultFIle.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
