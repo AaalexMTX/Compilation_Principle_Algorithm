@@ -1,0 +1,22 @@
+#pragma once
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<regex>
+using namespace std;
+
+//判断字符是否为数字
+bool isNumber(char& c);
+
+//判断字符是否为单词
+bool isLetter(char& c);
+
+//返回表达式 下一起始位置
+int getBCExp(char line[], int pos);
+
+void ReadExpression();
+
+//表达式类型转换
+string ExpChange(char line[]);

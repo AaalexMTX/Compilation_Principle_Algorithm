@@ -1,8 +1,8 @@
 #include"LL1_info.h"
 	
 //全局变量
-const char* readFileName = "anaTestWords01.txt";
-const char* writeFileName = "LL1resultFile.txt";
+const char* READGRAMMARFileName = "grammarText.txt";
+const char* WRITEGRAMMARFileName = "LL1resultFile.txt";
 const int MAXLEN = 20;
 char lineToken[MAXLEN] = {};
 regex N("[A-Z]");
@@ -14,7 +14,7 @@ unordered_map<string, vector<pair<string,string>>>LL1_table;
 stack<string>analyseStack;
 
 void readGrammar() {
-	FILE* fp = fopen(readFileName, "r");
+	FILE* fp = fopen(READGRAMMARFileName, "r");
 	//无判断 文件打开异常会中止程序
 	if (fp == NULL) {
 		cout << "NO file";
@@ -27,7 +27,7 @@ void readGrammar() {
 }
 
 void formatPrintIntoFile() {
-	if (freopen(writeFileName, "w", stdout) != NULL) {
+	if (freopen(WRITEGRAMMARFileName, "w", stdout) != NULL) {
 		formatPrint();
 	}
 	fclose(stdout);
@@ -40,34 +40,34 @@ int getBC(int pos, char line[]) {
 	return pos;
 }
 
-void scan(char lineToken[]) {
-	string product = lineToken;
+void scan(char line[]) {
+	string product = line;
 	//记录产生式的 左部 和 右部候选式
 	string product_left, product_right;
 	int startPos = 0, length = 0;
 	if (product.find('-', startPos) != string::npos) {
 		//取产生式左部
-		startPos = getBC(startPos, lineToken);
-		while (regex_match(string(1, lineToken[startPos + length]), N)) {
+		startPos = getBC(startPos, line);
+		while (regex_match(string(1, line[startPos + length]), N)) {
 			length++;
 		}
 		product_left = product.substr(startPos, length);
 		//取产生式右部
 		startPos = product.find('-', startPos) + 2;
-		startPos = getBC(startPos, lineToken);
-		char moveCheck = lineToken[startPos];
+		startPos = getBC(startPos, line);
+		char moveCheck = line[startPos];
 		length = 0;
 		while (moveCheck != ';' && moveCheck != '\n' && moveCheck != '\0' && startPos <= product.length() - 1) {
 			while (moveCheck != ' ' && moveCheck != '|' && moveCheck != ';' && moveCheck != '\n' && moveCheck != '\0') {
 				length++;
-				moveCheck = lineToken[startPos + length];
+				moveCheck = line[startPos + length];
 			}
 			//起始位置+长度	取候选式 
 			product_right = product.substr(startPos, length);
 			grammer.P[product_left].push_back(product_right);
 			//更新下一次读取的起始位置 及 长度
-			startPos = getBC(startPos + length + 1, lineToken);
-			moveCheck = lineToken[startPos];
+			startPos = getBC(startPos + length + 1, line);
+			moveCheck = line[startPos];
 			length = 0;
 		}
 	}
@@ -277,10 +277,10 @@ void calculate_nullAble() {
 			}
 		}
 	}
-	cout << "NullAble" << endl;
+	/*cout << "NullAble" << endl;
 	for (string a : nullAble) {
 		cout << a << endl;
-	}
+	}*/
 }
 
 void calculate_first() {
@@ -315,14 +315,14 @@ void calculate_first() {
 		}
 	} while (firstCheck != first);
 
-	cout << endl << "First" << endl;
+	/*cout << endl << "First" << endl;
 	for (auto a : first) {
 		cout << a.first << "->";
 		for (string b : a.second) {
 			cout << b << " ";
 		}
 		cout << endl;
-	}
+	}*/
 }
 
 void calculate_follow() {
@@ -368,14 +368,14 @@ void calculate_follow() {
 		}
 	} while (followCheck != follow);
 
-	cout << endl << "FOLLOW" << endl;
+	/*cout << endl << "FOLLOW" << endl;
 	for (auto a : follow) {
 		cout << a.first << "->";
 		for (string b : a.second) {
 			cout << b << " ";
 		}
 		cout << endl;
-	}
+	}*/
 }
 
 void construct_LL1Table() {
@@ -411,14 +411,14 @@ void construct_LL1Table() {
 		}
 	}
 
-	cout << endl << "LL1_Table" << endl;
+	/*cout << endl << "LL1_Table" << endl;
 	for (unordered_map<string, vector<pair<string, string>>>::iterator A = LL1_table.begin(); A != LL1_table.end(); A++) {
 		cout << A->first << " -- ";
 		for (vector<pair<string, string>>::iterator B = A->second.begin(); B != A->second.end(); B++) {
 			cout << B->first << "," << B->second << "  ";
 		}
 		cout << endl;
-	}
+	}*/
 }
 
 bool LL1_predict(string inputExpression) {

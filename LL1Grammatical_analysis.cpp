@@ -1,4 +1,5 @@
 #include"LL1_info.h"
+#include"wordAnalyse_info.h"
 
 int main() {
 	readGrammar();
@@ -11,14 +12,10 @@ int main() {
 	calculate_follow();
 	construct_LL1Table();
 
-	cout << endl;
-	if (LL1_predict("(i+i*)")) {
-		cout << "YES";
-	}
-	else { cout << "NO"; }
-	cout << endl;
+	ReadExpression();
 
-	formatPrint();
+	//formatPrint();
 	
+	//formatPrintIntoFile();
 	return 0;
 }

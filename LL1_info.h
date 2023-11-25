@@ -38,7 +38,7 @@ void scan(char lineToken[]);
 //消除 产生式的直接左递归
 void directLeftRecursion(string proLeft, vector<string>proRight);
 
-//消除 间接左递归
+//消除 间接左递归	
 void remove_left_recursion();
 
 //提取左因子
@@ -61,3 +61,5 @@ void construct_LL1Table();
 
 //预测程序
 bool LL1_predict(string inputExpression);
+
+string ExpressionChange(char line[]);
