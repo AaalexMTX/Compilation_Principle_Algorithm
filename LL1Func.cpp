@@ -3,7 +3,7 @@
 //全局变量
 const char* READGRAMMARFileName = "grammarText.txt";
 const char* WRITEGRAMMARFileName = "LL1resultFile.txt";
-const int MAXLEN = 20;
+const int MAXLEN = 50;
 char lineToken[MAXLEN] = {};
 regex N("[A-Z]");
 regex T("[a-z0-9*+()&#]");
@@ -434,7 +434,8 @@ bool LL1_predict(string inputExpression) {
 		//终结符
 		if (grammer.Vn.find(top) != grammer.Vn.end()) {
 			string predictString = "";
-			for (vector<pair<string, string>>::iterator itLL1Table = LL1_table[top].begin(); itLL1Table != LL1_table[top].end(); itLL1Table++) {
+			for (vector<pair<string, string>>::iterator itLL1Table = LL1_table[top].begin();
+				itLL1Table != LL1_table[top].end(); itLL1Table++) {
 				if ((*itLL1Table).first == inputExpTop) {
 					predictString = (*itLL1Table).second;
 					break;

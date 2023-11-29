@@ -2,7 +2,7 @@
 #include"LL1_info.h"
 
 const char* READEXPFileName = "ExpressionWord.txt";
-const int EXPMAXLEN = 20;
+const int EXPMAXLEN = 50;
 char expLineToken[EXPMAXLEN] = {};
 char strToken[EXPMAXLEN] = {};
 
@@ -45,7 +45,7 @@ void ReadExpression() {
 	}
 	else {
 		while (fgets(expLineToken, EXPMAXLEN, fp) != NULL) {
-			cout <<endl<< expLineToken;
+			cout << expLineToken;
 			if (LL1_predict(ExpChange(expLineToken))) { cout << "YES" << endl; }
 			else cout << "NO"<<endl;
 		}
