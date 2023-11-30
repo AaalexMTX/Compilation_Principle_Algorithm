@@ -422,6 +422,7 @@ void construct_LL1Table() {
 }
 
 bool LL1_predict(string inputExpression) {
+	while (!analyseStack.empty()) { analyseStack.pop(); }
 	analyseStack.push("#");
 	analyseStack.push(grammer.S);
 
