@@ -127,15 +127,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LexicalAnalyseFunc.cpp" />
     <ClCompile Include="LL1Func.cpp" />
     <ClCompile Include="LL1Grammatical_analysis.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LL1_info.h" />
+    <ClInclude Include="wordAnalyse_info.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="anaTestWords01.txt" />
-    <Text Include="LL1ResultFIle.txt" />
+    <Text Include="grammarText.txt" />
+    <Text Include="ExpressionWord.txt" />
+    <Text Include="LL1transResult.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

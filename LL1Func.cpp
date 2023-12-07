@@ -1,13 +1,37 @@
 #include"LL1_info.h"
-
-
+	
 //全局变量
-const char* readFileName = "anaTestWords01.txt";
-const char* writeFileName = "LL1resultFile.txt";
-int VNnumber = 0;
+const char* READGRAMMARFileName = "grammarText.txt";
+const char* WRITEGRAMMARFileName = "LL1resultFile.txt";
+const int MAXLEN = 50;
+char lineToken[MAXLEN] = {};
 regex N("[A-Z]");
 regex T("[a-z0-9*+()&#]");
 grammerStruct grammer;
+unordered_set<string>nullAble;
+unordered_map<string, unordered_set<string>>first, follow;
+unordered_map<string, vector<pair<string,string>>>LL1_table;
+stack<string>analyseStack;
+
+void readGrammar() {
+	FILE* fp = fopen(READGRAMMARFileName, "r");
+	//无判断 文件打开异常会中止程序
+	if (fp == NULL) {
+		cout << "NO file";
+	}
+	else {
+		while (fgets(lineToken, MAXLEN, fp) != NULL) {
+			scan(lineToken);
+		}
+	}
+}
+
+void formatPrintIntoFile() {
+	if (freopen(WRITEGRAMMARFileName, "w", stdout) != NULL) {
+		formatPrint();
+	}
+	fclose(stdout);
+}
 
 int getBC(int pos, char line[]) {
 	while (line[pos] == ' ' || line[pos] == '|' || line[pos] == '\t') {
@@ -16,35 +40,34 @@ int getBC(int pos, char line[]) {
 	return pos;
 }
 
-//文件扫描录入文法
-void scan(char lineToken[]) {
-	string product = lineToken;
+void scan(char line[]) {
+	string product = line;
 	//记录产生式的 左部 和 右部候选式
 	string product_left, product_right;
 	int startPos = 0, length = 0;
 	if (product.find('-', startPos) != string::npos) {
 		//取产生式左部
-		startPos = getBC(startPos, lineToken);
-		while (regex_match(string(1, lineToken[startPos + length]), N)) {
+		startPos = getBC(startPos, line);
+		while (regex_match(string(1, line[startPos + length]), N)) {
 			length++;
 		}
 		product_left = product.substr(startPos, length);
 		//取产生式右部
 		startPos = product.find('-', startPos) + 2;
-		startPos = getBC(startPos, lineToken);
-		char moveCheck = lineToken[startPos];
+		startPos = getBC(startPos, line);
+		char moveCheck = line[startPos];
 		length = 0;
 		while (moveCheck != ';' && moveCheck != '\n' && moveCheck != '\0' && startPos <= product.length() - 1) {
 			while (moveCheck != ' ' && moveCheck != '|' && moveCheck != ';' && moveCheck != '\n' && moveCheck != '\0') {
 				length++;
-				moveCheck = lineToken[startPos + length];
+				moveCheck = line[startPos + length];
 			}
 			//起始位置+长度	取候选式 
 			product_right = product.substr(startPos, length);
 			grammer.P[product_left].push_back(product_right);
 			//更新下一次读取的起始位置 及 长度
-			startPos = getBC(startPos + length + 1, lineToken);
-			moveCheck = lineToken[startPos];
+			startPos = getBC(startPos + length + 1, line);
+			moveCheck = line[startPos];
 			length = 0;
 		}
 	}
@@ -64,8 +87,7 @@ void scan(char lineToken[]) {
 	}
 }
 
-//格式化输出文法
-void print() {
+void formatPrint() {
 	for (unordered_map<string, vector<string>>::iterator it = grammer.P.begin(); it != grammer.P.end(); it++) {
 		cout << it->first << "->";
 		for (vector<string>::iterator itVector = it->second.begin(); itVector != it->second.end();itVector++) {
@@ -88,7 +110,6 @@ void print() {
 	}
 }
 
-//消除 产生式的直接左递归
 void directLeftRecursion(string proLeft, vector<string>proRight) {
 	vector<string>originPro, newPro;
 	for (vector<string>::iterator it = proRight.begin(); it < proRight.end(); it++) {
@@ -134,7 +155,6 @@ void directLeftRecursion(string proLeft, vector<string>proRight) {
 	}
 }
 
-//消除 间接左递归
 void remove_left_recursion() {
 	for (unordered_map<string, vector<string>>::iterator itI = grammer.P.begin(); itI != grammer.P.end(); itI++) {
 		//对产生式itI尝试代入 其他所有itJ
@@ -164,7 +184,6 @@ void remove_left_recursion() {
 	}
 }
 
-//提取左因子
 void remove_left_gene() {
 	unordered_map<string, vector<string>>candidate;
 	//遍历文法的所有产生式
@@ -210,4 +229,241 @@ void remove_left_gene() {
 			}
 		}
 	}
+}
+
+string getFullChar(string candidate, int pos) {
+	int length = 1;
+	string fullVn;
+	//下一位是' 再读一位
+	for (int i = pos+1;i < candidate.length();i++) {
+		if (candidate[i] == '\'') {
+			length++;
+		}
+		else { break; }
+	}
+	return candidate.substr(pos, length);
+}
+
+void calculate_nullAble() {
+	bool nullAbleChange = true;
+	while (nullAbleChange) {
+		nullAbleChange = false;
+		for (unordered_map<string, vector<string>>::iterator itProduct = grammer.P.begin();itProduct != grammer.P.end();itProduct++) {
+			for (string itCandidate : (*itProduct).second) {
+				//跳过加入nullable 的产生式
+				if (nullAble.find((*itProduct).first) != nullAble.end()) { continue; }
+
+				if (itCandidate == "@") {
+					nullAble.insert((*itProduct).first);
+					nullAbleChange = true;
+					break;
+				}
+				else {
+					//候选式全含空 也属nullable集
+					int allEmpty = 0;
+					for (int i = 0;i < itCandidate.length();) {
+						string fullVn = getFullChar(itCandidate, i);
+						if (nullAble.find(fullVn) != nullAble.end()) {
+							allEmpty++;
+						}
+						else { break; }
+						i += fullVn.length();
+					}
+					if (allEmpty == itCandidate.length()) {
+						nullAble.insert((*itProduct).first);
+						nullAbleChange = true;
+					}
+				}
+			}
+		}
+	}
+	/*cout << "NullAble" << endl;
+	for (string a : nullAble) {
+		cout << a << endl;
+	}*/
+}
+
+void calculate_first() {
+	unordered_map<string, unordered_set<string>>firstCheck;
+	do{
+		//检测first是否更新
+		first = firstCheck;
+
+		for (unordered_map<string, vector<string>>::iterator itP = grammer.P.begin();itP != grammer.P.end();itP++) {
+			for (vector<string>::iterator itCandidate = itP->second.begin();itCandidate != itP->second.end();itCandidate++) {
+				//遍历候选式的每一个符号
+				for (int i = 0; i < (*itCandidate).length();) {
+					string fullChar = getFullChar(*itCandidate, i);
+					//非终结符
+					if(grammer.Vn.find(fullChar) != grammer.Vn.end()){
+						//将这个非终结符的first集合 insert并入产生式左部符号的first集
+						firstCheck[(*itP).first].insert(firstCheck[fullChar].begin(),firstCheck[fullChar].end());
+
+						//不能推空  直接结束
+						if (nullAble.find(fullChar) == nullAble.end()) {
+							break;
+						}
+					}
+					//非终结符 或 空
+					else {
+						firstCheck[(*itP).first].insert(fullChar);
+						break;
+					}
+					i += fullChar.length();
+				}
+			}
+		}
+	} while (firstCheck != first);
+
+	/*cout << endl << "First" << endl;
+	for (auto a : first) {
+		cout << a.first << "->";
+		for (string b : a.second) {
+			cout << b << " ";
+		}
+		cout << endl;
+	}*/
+}
+
+void calculate_follow() {
+	unordered_map<string, unordered_set<string>>followCheck;
+	followCheck[grammer.S].insert("#");
+	do {
+		follow = followCheck;
+		for (unordered_map<string, vector<string>>::iterator itP = grammer.P.begin();itP != grammer.P.end();itP++) {
+			//temp 先拿 follow(P->first)
+			unordered_set<string>temp = followCheck[(*itP).first];
+			for (vector<string>::iterator itCandidate = itP->second.begin();itCandidate != itP->second.end();itCandidate++) {
+				//反向遍历候选式的每一个符号
+				for (int i = (*itCandidate).length()-1; i >= 0;i--) {
+					//反着遍历 可能先碰到'
+					if ((*itCandidate)[i] == '\'') {
+						continue;
+					}
+					string fullChar = getFullChar(*itCandidate, i);
+					//非终结符
+					if (grammer.Vn.find(fullChar) != grammer.Vn.end()) {
+						//follow(M) U= temp    跳过@
+						for (string symbol : temp) {
+							if (symbol != "@") {
+								followCheck[fullChar].insert(symbol);
+							}
+						}
+						
+						if (nullAble.find(fullChar) == nullAble.end()) {
+							//非空 temp = first（M)
+							temp = first[fullChar];
+						}
+						else {
+							//空 temp += first(M)
+							temp.insert(first[fullChar].begin(), first[fullChar].end());
+						}
+					}
+					//终结符 并跳过空字
+					if(grammer.Vt.find(fullChar) != grammer.Vt.end()) {
+						temp = {fullChar};
+					}
+				}
+			}
+		}
+	} while (followCheck != follow);
+
+	/*cout << endl << "FOLLOW" << endl;
+	for (auto a : follow) {
+		cout << a.first << "->";
+		for (string b : a.second) {
+			cout << b << " ";
+		}
+		cout << endl;
+	}*/
+}
+
+void construct_LL1Table() {
+	for (unordered_map<string, vector<string>>::iterator itP = grammer.P.begin(); itP != grammer.P.end();itP++) {
+		for (vector<string>::iterator itCandidate = itP->second.begin();itCandidate != itP->second.end();itCandidate++) {
+			//遍历产生式每个符号
+			for (int i = 0;i < (*itCandidate).length();) {
+				string fullChar = getFullChar(*itCandidate, i);
+
+				//终结符
+				if (grammer.Vn.find(fullChar) != grammer.Vn.end()) {
+					//将M 的first集 加入 分析表
+					for (unordered_set<string>::iterator itfullCharFirst = first[fullChar].begin(); itfullCharFirst != first[fullChar].end(); itfullCharFirst++) {
+						LL1_table[itP->first].push_back({ *itfullCharFirst, *itCandidate });
+					}
+					//非空 不继续遍历候选式了
+					if (nullAble.find(fullChar) == nullAble.end()) { break; }
+				}
+				//非终结符
+				else if (grammer.Vt.find(fullChar) != grammer.Vt.end()) {
+					LL1_table[itP->first].push_back({ fullChar, *itCandidate });
+					break;
+				}
+				//@
+				else {
+					//将M 的follow集 加入 分析表
+					for (unordered_set<string>::iterator itfullCharFollow = follow[itP->first].begin(); itfullCharFollow != follow[itP->first].end();itfullCharFollow++) {
+						LL1_table[itP->first].push_back({ *itfullCharFollow, *itCandidate });
+					}
+				}
+				i += fullChar.length();
+			}
+		}
+	}
+
+	/*cout << endl << "LL1_Table" << endl;
+	for (unordered_map<string, vector<pair<string, string>>>::iterator A = LL1_table.begin(); A != LL1_table.end(); A++) {
+		cout << A->first << " -- ";
+		for (vector<pair<string, string>>::iterator B = A->second.begin(); B != A->second.end(); B++) {
+			cout << B->first << "," << B->second << "  ";
+		}
+		cout << endl;
+	}*/
+}
+
+bool LL1_predict(string inputExpression) {
+	while (!analyseStack.empty()) { analyseStack.pop(); }
+	analyseStack.push("#");
+	analyseStack.push(grammer.S);
+
+	inputExpression += "#";
+
+	while (!analyseStack.empty()) {
+		string top = analyseStack.top();
+		analyseStack.pop();
+		string inputExpTop = inputExpression.substr(0, 1);
+		//终结符
+		if (grammer.Vn.find(top) != grammer.Vn.end()) {
+			string predictString = "";
+			for (vector<pair<string, string>>::iterator itLL1Table = LL1_table[top].begin();
+				itLL1Table != LL1_table[top].end(); itLL1Table++) {
+				if ((*itLL1Table).first == inputExpTop) {
+					predictString = (*itLL1Table).second;
+					break;
+				}
+			}
+			if (predictString == "@") { continue; }
+
+			//LL(1)中存在对应关系则入栈候选式 否则错误
+			if (predictString != "") {
+				//反向入栈
+				string fullChar;
+				for (int i = predictString.length() - 1; i >= 0;i--) {
+					if (predictString[i] == '\'') { continue; }
+					fullChar = getFullChar(predictString, i);
+					analyseStack.push(fullChar);
+				}
+			}
+			else{ return false; }
+
+		}
+		else {
+			//相同非终极符同时出栈 否则错误 
+			if (top == inputExpTop) {
+				inputExpression = inputExpression.substr(1);
+			}
+			else { return false; }
+		}
+	}
+	return inputExpression.empty();
 }

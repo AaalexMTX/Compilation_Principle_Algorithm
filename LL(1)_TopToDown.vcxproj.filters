@@ -21,17 +21,26 @@
     <ClCompile Include="LL1Func.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="LexicalAnalyseFunc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LL1_info.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="wordAnalyse_info.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="LL1ResultFIle.txt">
+    <Text Include="LL1transResult.txt">
       <Filter>源文件</Filter>
     </Text>
-    <Text Include="anaTestWords01.txt">
+    <Text Include="grammarText.txt">
+      <Filter>源文件</Filter>
+    </Text>
+    <Text Include="ExpressionWord.txt">
       <Filter>源文件</Filter>
     </Text>
   </ItemGroup>
