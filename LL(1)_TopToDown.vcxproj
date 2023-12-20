@@ -129,10 +129,12 @@
   <ItemGroup>
     <ClCompile Include="LexicalAnalyseFunc.cpp" />
     <ClCompile Include="LL1Func.cpp" />
-    <ClCompile Include="LL1Grammatical_analysis.cpp" />
+    <ClCompile Include="SLRAnaly.cpp" />
+    <ClCompile Include="SLRFunc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LL1_info.h" />
+    <ClInclude Include="SLR_info.h" />
     <ClInclude Include="wordAnalyse_info.h" />
   </ItemGroup>
   <ItemGroup>
