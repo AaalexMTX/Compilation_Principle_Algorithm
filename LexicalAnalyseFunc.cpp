@@ -1,5 +1,6 @@
 #include"wordAnalyse_info.h"
 #include"LL1_info.h"
+#include"SLR_info.h"
 
 const char* READEXPFileName = "ExpressionWord.txt";
 const int EXPMAXLEN = 50;
@@ -13,18 +14,10 @@ char keyWords[][10] = { "int", "float","bool", "true", "false", "main", "for",
 	"printf", "cout", "switch", "case", "default" ,"then" };
 
 bool isNumber(char& c) {
-	/*if (c >= '0' && c <= '9') {
-		return true;
-	}
-	return false;*/
 	return (c >= '0' && c <= '9') ? true : false;
 }
 
 bool isLetter(char& c) {
-	/*if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z') {
-		return true;
-	}
-	return false;*/
 	return (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z') ? true : false;
 }
 
@@ -38,8 +31,8 @@ int getBCExp(char line[], int pos) {
 	return nextStart;
 }
 
-void ReadExpression() {
-	FILE* fp = fopen(READEXPFileName,"r");
+void ReadExp_LL1() {
+	FILE* fp = fopen(READEXPFileName, "r");
 	if (fp == NULL) {
 		cout << "文件不存在";
 	}
@@ -47,7 +40,21 @@ void ReadExpression() {
 		while (fgets(expLineToken, EXPMAXLEN, fp) != NULL) {
 			cout << expLineToken;
 			if (LL1_predict(ExpChange(expLineToken))) { cout << "YES" << endl; }
-			else cout << "NO"<<endl;
+			else cout << "NO" << endl;
+		}
+	}
+}
+
+void ReadExp_SLR() {
+	FILE* fp = fopen(READEXPFileName, "r");
+	if (fp == NULL) {
+		cout << "SLR_表达式文件不存在" << endl;
+	}
+	else {
+		while (fgets(expLineToken, EXPMAXLEN, fp) != NULL) {
+			cout << endl << string(expLineToken);
+			//SLR_predict(ExpChange(expLineToken));					//SLR分析结果
+			SLR_predict_AnalyseStack(ExpChange(expLineToken));	//SLR分析结果+分析栈
 		}
 	}
 }
@@ -61,7 +68,7 @@ string ExpChange(char line[]) {
 		linePf = getBCExp(line, linePf);		//排除开头的空白符
 
 		int flag = 0, wordPf = 0;
-		memset(strToken,0, EXPMAXLEN);
+		memset(strToken, 0, EXPMAXLEN);
 		//符号串
 		if (isLetter(line[linePf]) || line[linePf] == '_') {
 			while (isLetter(line[linePf]) || isNumber(line[linePf]) || line[linePf] == '_') {
@@ -130,9 +137,9 @@ string ExpChange(char line[]) {
 			elementValue = strToken;
 		}
 		//界符
-		else if(regex_match(string(1,line[linePf]),delimiterPattern)) {
+		else if (regex_match(string(1, line[linePf]), delimiterPattern)) {
 			elementType = string(1, line[linePf]);
-			elementValue = string(1,line[linePf]);
+			elementValue = string(1, line[linePf]);
 			linePf++;
 		}
 		linePf = getBCExp(line, linePf);	//排除末端空白符

@@ -15,13 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LL1Grammatical_analysis.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="LL1Func.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="LexicalAnalyseFunc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SLRFunc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SLRAnaly.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -30,6 +33,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="wordAnalyse_info.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SLR_info.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

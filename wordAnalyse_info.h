@@ -16,7 +16,11 @@ bool isLetter(char& c);
 //返回表达式 下一起始位置
 int getBCExp(char line[], int pos);
 
-void ReadExpression();
+//文件读入表达式并进行LL1分析
+void ReadExp_LL1();
+
+//文件读入表达式 并进行SLR分析
+void ReadExp_SLR();
 
 //表达式类型转换
 string ExpChange(char line[]);

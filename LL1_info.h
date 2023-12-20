@@ -1,5 +1,4 @@
 #pragma once
-
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<string>
@@ -9,7 +8,7 @@
 #include<unordered_map>
 #include<unordered_set>
 #include<regex>
-#include<utility>
+#include<utility>		//pair对
 using namespace std;
 
 //文法结构
@@ -48,18 +47,16 @@ void remove_left_gene();
 string getFullChar(string candidate, int pos);
 
 //计算空集
-void calculate_nullAble();
+void calculate_NullAble();
 
-//计算first集合
-void calculate_first();
+//计算First集合
+void calculate_First();
 
-//计算follow集合
-void calculate_follow();
+//计算Follow集合
+void calculate_Follow();
 
 //预测分析表的构造
 void construct_LL1Table();
 
 //预测程序
 bool LL1_predict(string inputExpression);
-
-string ExpressionChange(char line[]);
