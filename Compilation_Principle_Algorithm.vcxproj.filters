@@ -15,30 +15,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LL1Func.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="LexicalAnalyseFunc.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SLRFunc.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SLRAnaly.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/LexicalAnalyseFunc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/LL1Func.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/SLRAnaly.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/SLRFunc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LL1_info.h">
+    <ClInclude Include="./include/SLR_info.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="wordAnalyse_info.h">
+    <ClInclude Include="./include/wordAnalyse_info.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SLR_info.h">
+    <ClInclude Include="./include/LL1_info.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

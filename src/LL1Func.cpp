@@ -1,6 +1,6 @@
-#include"LL1_info.h"
-#include"SLR_info.h"
-#include"wordAnalyse_info.h"
+//#include"LL1_info.h"
+//#include"SLR_info.h"
+//#include"wordAnalyse_info.h"
 
 /*  1.分析栈状态   2.其他文法的适配性检测
 *
@@ -46,7 +46,7 @@ B->*i|@
 
 */
 
-extern grammerStruct grammer;
+//extern grammerStruct grammer;
 //int main() {
 //	readGrammar();
 //

@@ -1,5 +1,5 @@
-#include"SLR_info.h"
-#include"LL1_info.h"
+#include"../include/LL1_info.h"
+#include"../include/SLR_info.h"
 
 extern grammerStruct grammer;			//文法
 extern vector<string>Productions;		//产生式数组 便于编号和规约

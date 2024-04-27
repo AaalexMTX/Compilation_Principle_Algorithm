@@ -1,10 +1,10 @@
-#include"LL1_info.h"
+#include"../include/LL1_info.h"
 
 //全局变量
-const char* READGRAMMARFileName = "grammarText.txt";
-const char* readLL1GrammarFile = "LL1grammarText.txt";
-const char* WRITEGRAMMARFileName = "LL1resultFile.txt";
-const char* writeLL1TransResultFile = "LL1transResult.txt";
+const char* READGRAMMARFileName = "./src/textFile/LL1/grammarText.txt";
+const char* readLL1GrammarFile = "./src/textFile/LL1/LL1grammarText.txt";
+const char* WRITEGRAMMARFileName = "./src/textFile/LL1/LL1resultFile.txt";
+const char* writeLL1TransResultFile = "./src/textFile/LL1/LL1transResult.txt";
 
 const int MAXLEN = 50;
 char lineToken[MAXLEN] = {};
@@ -29,6 +29,8 @@ void readGrammar() {
 		while (fgets(lineToken, MAXLEN, fp) != NULL) {
 			scan(lineToken);
 		}
+		//文件句柄开了得关
+		fclose(fp);
 	}
 }
 
@@ -36,12 +38,14 @@ void readLL1Grammar() {
 	FILE* fp = fopen(readLL1GrammarFile, "r");
 	//无判断 文件打开异常会中止程序
 	if (fp == NULL) {
-		cout << "NO file";
+		cout << "GrammarFile Not Exist";
 	}
 	else {
 		while (fgets(lineToken, MAXLEN, fp) != NULL) {
 			scan(lineToken);
 		}
+		//文件句柄开了得关
+		fclose(fp);
 	}
 }
 
@@ -49,7 +53,7 @@ void formatPrintIntoFile() {
 	if (freopen(WRITEGRAMMARFileName, "w", stdout) != NULL) {
 		formatPrint();
 		//把标准输出改回控制台
-		freopen("CON", "w", stdout);
+		auto _ = freopen("CON", "w", stdout);
 	}
 	//fclose(stdout);
 }
@@ -58,7 +62,7 @@ void formatPrintLL1IntoFile() {
 	if (freopen(writeLL1TransResultFile, "w", stdout) != NULL) {
 		formatPrint();
 		//把标准输出改回控制台
-		freopen("CON", "w", stdout);
+		auto _ = freopen("CON", "w", stdout);
 	}
 	//fclose(stdout);
 }

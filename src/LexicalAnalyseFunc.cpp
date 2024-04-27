@@ -1,8 +1,8 @@
-#include"wordAnalyse_info.h"
-#include"LL1_info.h"
-#include"SLR_info.h"
+#include"../include/LL1_info.h"
+#include"../include/SLR_info.h"
+#include"../include/wordAnalyse_info.h"
 
-const char* readExpressionFile = "ExpressionWord.txt";
+const char* readExpressionFile = "./src/textFile/LL1/ExpressionWord.txt";
 const int EXPMAXLEN = 50;
 char expLineToken[EXPMAXLEN] = {};
 char strToken[EXPMAXLEN] = {};
