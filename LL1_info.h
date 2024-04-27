@@ -22,8 +22,14 @@ struct grammerStruct {
 //文法读入
 void readGrammar();
 
+//LL1文法读入
+void readLL1Grammar();
+
 //格式化输出文法进文件
 void formatPrintIntoFile();
+
+//格式化输出文法进文件
+void formatPrintLL1IntoFile();
 
 //格式化输出文法
 void formatPrint();

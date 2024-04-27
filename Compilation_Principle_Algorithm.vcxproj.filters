@@ -27,6 +27,9 @@
     <ClCompile Include="SLRAnaly.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LL1_info.h">
@@ -47,6 +50,12 @@
       <Filter>源文件</Filter>
     </Text>
     <Text Include="ExpressionWord.txt">
+      <Filter>源文件</Filter>
+    </Text>
+    <Text Include="LL1resultFile.txt">
+      <Filter>源文件</Filter>
+    </Text>
+    <Text Include="LL1grammarText.txt">
       <Filter>源文件</Filter>
     </Text>
   </ItemGroup>

@@ -17,10 +17,10 @@ bool isLetter(char& c);
 int getBCExp(char line[], int pos);
 
 //文件读入表达式并进行LL1分析
-void ReadExp_LL1();
+void run_ReadExp_LL1();
 
 //文件读入表达式 并进行SLR分析
-void ReadExp_SLR();
+void run_ReadExp_SLR();
 
 //表达式类型转换
 string ExpChange(char line[]);

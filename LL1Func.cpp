@@ -47,22 +47,22 @@ B->*i|@
 */
 
 extern grammerStruct grammer;
-int main() {
-	readGrammar();
-
-	calculate_NullAble();
-	calculate_First();
-	calculate_Follow();
-
-	/*item originItem(grammer.S, grammer.P[grammer.S][0], -1);
-	vector<item>originItemVector(1, { grammer.S, grammer.P[grammer.S][0], -1 });*/
-
-	//匿名定义
-	items_Node originNode(vector<item>(1, { grammer.S, grammer.P[grammer.S][0], -1 }));
-	SLRAnaTableConstruct(originNode);
-
-	printSLRTabel();
-
-	ReadExp_SLR();
-	return 0;
-}
+//int main() {
+//	readGrammar();
+//
+//	calculate_NullAble();
+//	calculate_First();
+//	calculate_Follow();
+//
+//	/*item originItem(grammer.S, grammer.P[grammer.S][0], -1);
+//	vector<item>originItemVector(1, { grammer.S, grammer.P[grammer.S][0], -1 });*/
+//
+//	//匿名定义
+//	items_Node originNode(vector<item>(1, { grammer.S, grammer.P[grammer.S][0], -1 }));
+//	SLRAnaTableConstruct(originNode);
+//
+//	printSLRTabel();
+//
+//	ReadExp_SLR();
+//	return 0;
+//}

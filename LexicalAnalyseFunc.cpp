@@ -2,7 +2,7 @@
 #include"LL1_info.h"
 #include"SLR_info.h"
 
-const char* READEXPFileName = "ExpressionWord.txt";
+const char* readExpressionFile = "ExpressionWord.txt";
 const int EXPMAXLEN = 50;
 char expLineToken[EXPMAXLEN] = {};
 char strToken[EXPMAXLEN] = {};
@@ -31,8 +31,8 @@ int getBCExp(char line[], int pos) {
 	return nextStart;
 }
 
-void ReadExp_LL1() {
-	FILE* fp = fopen(READEXPFileName, "r");
+void run_ReadExp_LL1() {
+	FILE* fp = fopen(readExpressionFile, "r");
 	if (fp == NULL) {
 		cout << "文件不存在";
 	}
@@ -42,11 +42,12 @@ void ReadExp_LL1() {
 			if (LL1_predict(ExpChange(expLineToken))) { cout << "YES" << endl; }
 			else cout << "NO" << endl;
 		}
+		fclose(fp);
 	}
 }
 
-void ReadExp_SLR() {
-	FILE* fp = fopen(READEXPFileName, "r");
+void run_ReadExp_SLR() {
+	FILE* fp = fopen(readExpressionFile, "r");
 	if (fp == NULL) {
 		cout << "SLR_表达式文件不存在" << endl;
 	}
@@ -56,6 +57,8 @@ void ReadExp_SLR() {
 			//SLR_predict(ExpChange(expLineToken));					//SLR分析结果
 			SLR_predict_AnalyseStack(ExpChange(expLineToken));	//SLR分析结果+分析栈
 		}
+		fclose(fp);
+
 	}
 }
 

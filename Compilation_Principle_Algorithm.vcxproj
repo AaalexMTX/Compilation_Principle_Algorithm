@@ -24,6 +24,7 @@
     <ProjectGuid>{fe8fd75d-ea8f-440a-a3a4-6b3a438ca698}</ProjectGuid>
     <RootNamespace>LL1TopToDown</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Compilation_Principle_Algorithm</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -129,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="LexicalAnalyseFunc.cpp" />
     <ClCompile Include="LL1Func.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="SLRAnaly.cpp" />
     <ClCompile Include="SLRFunc.cpp" />
   </ItemGroup>
@@ -140,6 +142,8 @@
   <ItemGroup>
     <Text Include="grammarText.txt" />
     <Text Include="ExpressionWord.txt" />
+    <Text Include="LL1grammarText.txt" />
+    <Text Include="LL1resultFile.txt" />
     <Text Include="LL1transResult.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
