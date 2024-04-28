@@ -1,7 +1,7 @@
 #include"../include/LL1_info.h"
 #include"../include/SLR_info.h"
 
-extern grammerStruct grammer;			//文法
+extern grammerStruct grammar;			//文法
 extern vector<string>Productions;		//产生式数组 便于编号和规约
 extern unordered_map<string, unordered_set<string>>Follow;
 extern vector<string>VNT;				//取出文法中的Vn和Vt便于遍历
@@ -28,10 +28,10 @@ items_Node itemsNodeClosure(const items_Node& oriNode) {
 		for (int i = 0;i < WholeNode.items_Set.size();i++) {
 			//如果点 的后字符是Vn 且未访问 则拓展
 			string nextStr = getFullChar(WholeNode.items_Set[i].ProCandidate, WholeNode.items_Set[i].point + 1);
-			if (grammer.Vn.find(nextStr) != grammer.Vn.end() &&
+			if (grammar.Vn.find(nextStr) != grammar.Vn.end() &&
 				VnExtendCheck[nextStr] == false) {
 				//将非终结符的所有候选式 转为item加入 项目集的vector
-				for (string nextCandidate : grammer.P[nextStr]) {
+				for (string nextCandidate : grammar.P[nextStr]) {
 					item nextCanitem(nextStr, nextCandidate, -1);
 					WholeNode.items_Set.push_back(nextCanitem);
 					setChangeFlag = true;
@@ -163,7 +163,7 @@ void SLRAnaTableConstruct(items_Node& oriNode) {
 				}
 
 				//若X是Vn 更新Goto
-				if (grammer.Vn.find(X) != grammer.Vn.end()) {
+				if (grammar.Vn.find(X) != grammar.Vn.end()) {
 					// 0 -> <E,1>
 					pair<string, string>gotoPair(X, to_string(nextNode.state_id));
 					Goto[frontNode.state_id].push_back(gotoPair);
@@ -182,11 +182,11 @@ void printSLRTabel() {
 	printf("      |\t\tACTION\t\t    |    GOTO\t\n");
 	//printf("  状态|  +    *   (     )    i    # | E   T   F\n");
 	printf("  状态|");
-	for (int i = grammer.Vn.size();i < VNT.size();i++) {
+	for (int i = grammar.Vn.size();i < VNT.size();i++) {
 		printf(" %-3s ", VNT[i].c_str());
 	}
 	cout << "|";
-	for (int i = 1;i < grammer.Vn.size();i++) {
+	for (int i = 1;i < grammar.Vn.size();i++) {
 		printf(" %-3s", VNT[i].c_str());
 	}
 	cout << endl;
@@ -198,7 +198,7 @@ void printSLRTabel() {
 		vector<int>coutOnceCheck(VNT.size(), 0);
 		for (int i = 0; i < VNT.size(); i++) {
 			//跳过非终结符 的输出
-			if (grammer.Vn.find(VNT[i]) != grammer.Vn.end()) { continue; }
+			if (grammar.Vn.find(VNT[i]) != grammar.Vn.end()) { continue; }
 			bool checkChar = false;
 			for (pair<string, string>& ACPair : Action[coutPos]) {
 				//如果存在 (i,R2) && 未被访问
@@ -213,7 +213,7 @@ void printSLRTabel() {
 			cout << "|";
 		}
 		for (int i = 0; i < VNT.size(); i++) {
-			if (grammer.Vt.count(VNT[i]) != 0 || VNT[i] == grammer.S) { continue; }
+			if (grammar.Vt.count(VNT[i]) != 0 || VNT[i] == grammar.S) { continue; }
 			bool checkChar = false;
 			for (pair<string, string>ACPair : Goto[coutPos]) {
 				//如果存在 (i,R2) && 未被访问
