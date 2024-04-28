@@ -3,6 +3,7 @@
 //全局变量
 const char* READGRAMMARFileName = "./src/textFile/LL1/grammarText.txt";
 const char* readLL1GrammarFile = "./src/textFile/LL1/LL1grammarText.txt";
+const char* readSLRGrammarFile = "./src/textFile/SLR/SLRGrammarText.txt";
 const char* WRITEGRAMMARFileName = "./src/textFile/LL1/LL1resultFile.txt";
 const char* writeLL1TransResultFile = "./src/textFile/LL1/LL1transResult.txt";
 
@@ -26,6 +27,7 @@ void readGrammar() {
 		cout << "NO file";
 	}
 	else {
+		//std::memset(lineToken, '\0', sizeof(lineToken));
 		while (fgets(lineToken, MAXLEN, fp) != NULL) {
 			scan(lineToken);
 		}
@@ -38,7 +40,23 @@ void readLL1Grammar() {
 	FILE* fp = fopen(readLL1GrammarFile, "r");
 	//无判断 文件打开异常会中止程序
 	if (fp == NULL) {
-		cout << "GrammarFile Not Exist";
+		cout << "LL1GrammarFile Not Exist";
+	}
+	else {
+		//std::memset(lineToken, '\0', sizeof(lineToken));  ???
+		while (fgets(lineToken, MAXLEN, fp) != NULL) {
+			scan(lineToken);
+		}
+		//文件句柄开了得关
+		fclose(fp);
+	}
+}
+
+void readSLRGrammar() {
+	FILE* fp = fopen(readSLRGrammarFile, "r");
+	//无判断 文件打开异常会中止程序
+	if (fp == NULL) {
+		cout << "SLRGrammarFile Not Exist";
 	}
 	else {
 		while (fgets(lineToken, MAXLEN, fp) != NULL) {
@@ -64,7 +82,9 @@ void formatPrintLL1IntoFile() {
 		//把标准输出改回控制台
 		auto _ = freopen("CON", "w", stdout);
 	}
-	//fclose(stdout);
+	else {
+		printf("LL1transResult.txt Not Exist");
+	}
 }
 
 int getBC(int pos, char line[]) {

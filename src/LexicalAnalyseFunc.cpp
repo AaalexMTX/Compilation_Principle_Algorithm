@@ -2,7 +2,7 @@
 #include"../include/SLR_info.h"
 #include"../include/wordAnalyse_info.h"
 
-const char* readExpressionFile = "./src/textFile/LL1/ExpressionWord.txt";
+const char* readExpressionFile = "./src/textFile/ExpressionWord.txt";
 const int EXPMAXLEN = 50;
 char expLineToken[EXPMAXLEN] = {};
 char strToken[EXPMAXLEN] = {};
@@ -58,7 +58,6 @@ void run_ReadExp_SLR() {
 			SLR_predict_AnalyseStack(ExpChange(expLineToken));	//SLR分析结果+分析栈
 		}
 		fclose(fp);
-
 	}
 }
 

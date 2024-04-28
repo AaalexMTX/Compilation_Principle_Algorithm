@@ -1,5 +1,6 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
+#include<cstring>
 #include<iostream>
 #include<string>
 #include<vector>
@@ -24,6 +25,9 @@ void readGrammar();
 
 //LL1文法读入
 void readLL1Grammar();
+
+//SLR文法读入
+void readSLRGrammar();
 
 //格式化输出文法进文件
 void formatPrintIntoFile();

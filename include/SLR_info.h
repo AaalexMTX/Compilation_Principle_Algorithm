@@ -6,6 +6,12 @@
 #include<algorithm>
 using namespace std;
 
+class SLR {
+private:
+public:
+
+};
+
 //ÏîÄ¿
 struct item {
 	string Proleft;

@@ -7,6 +7,7 @@ extern unordered_map<string, unordered_set<string>>Follow;
 extern vector<string>VNT;				//取出文法中的Vn和Vt便于遍历
 extern regex N;
 extern regex T;							//正则
+
 vector<items_Node>itemsNodeSet(0);		//所有项目集
 unordered_map<int, vector<pair<string, string>>>Action;		//Action表
 unordered_map<int, vector<pair<string, string>>>Goto;		//Goto表
@@ -400,9 +401,4 @@ void SLR_predict_AnalyseStack(string inputExpression) {
 			break;
 		}
 	}
-}
-
-void SLR_predict_AnalyseStack_SemanticAnalyse(char line[]) {
-	string inputExpression = string(line);
-	cout << inputExpression << endl;
 }

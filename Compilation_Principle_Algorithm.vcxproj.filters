@@ -43,20 +43,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="LL1transResult.txt">
-      <Filter>源文件</Filter>
-    </Text>
-    <Text Include="grammarText.txt">
-      <Filter>源文件</Filter>
-    </Text>
-    <Text Include="ExpressionWord.txt">
-      <Filter>源文件</Filter>
-    </Text>
-    <Text Include="LL1resultFile.txt">
-      <Filter>源文件</Filter>
-    </Text>
-    <Text Include="LL1grammarText.txt">
-      <Filter>源文件</Filter>
-    </Text>
+    <Text Include="./src/textFile/LL1/grammarText.txt" />
+    <Text Include="./src/textFile/ExpressionWord.txt" />
+    <Text Include="./src/textFile/LL1/LL1grammarText.txt" />
+    <Text Include="./src/textFile/LL1/LL1resultFile.txt" />
+    <Text Include="./src/textFile/LL1/LL1transResult.txt" />
+    <Text Include="./src/textFile/SLR/SLRGrammarText.txt" />
   </ItemGroup>
 </Project>

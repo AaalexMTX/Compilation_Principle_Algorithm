@@ -129,43 +129,41 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="./src/LexicalAnalyseFunc.cpp">
-		<ExcludedFromBuild>false</ExcludedFromBuild>
-		<Filter>src</Filter>
-	</ClCompile>
+      <ExcludedFromBuild>false</ExcludedFromBuild>
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="./src/LL1Func.cpp">
-	  <ExcludedFromBuild>false</ExcludedFromBuild>
-	  <Filter>src</Filter>
-	  </ClCompile>
+      <ExcludedFromBuild>false</ExcludedFromBuild>
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
-	  <ExcludedFromBuild>false</ExcludedFromBuild>
-	  <Filter>src</Filter>
-	  </ClCompile>
+      <ExcludedFromBuild>false</ExcludedFromBuild>
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="./src/SLRAnaly.cpp">
-	  <ExcludedFromBuild>false</ExcludedFromBuild>
-	  <Filter>src</Filter>
-	  </ClCompile>
+      <ExcludedFromBuild>false</ExcludedFromBuild>
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="./src/SLRFunc.cpp">
-	  <ExcludedFromBuild>false</ExcludedFromBuild>
-	  <Filter>src</Filter>
-	  </ClCompile>
+      <ExcludedFromBuild>false</ExcludedFromBuild>
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./include/LL1_info.h">
-		
-	</ClInclude>
-	<ClInclude Include="./include/SLR_info.h">
-		
-	</ClInclude>
-		<ClInclude Include="./include/wordAnalyse_info.h">
-			
-		</ClInclude>
+    </ClInclude>
+    <ClInclude Include="./include/SLR_info.h">
+    </ClInclude>
+    <ClInclude Include="./include/wordAnalyse_info.h">
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="./src/textFile/LL1/grammarText.txt" />
-    <Text Include="./src/textFile/LL1/ExpressionWord.txt" />
+    <Text Include="./src/textFile/ExpressionWord.txt" />
     <Text Include="./src/textFile/LL1/LL1grammarText.txt" />
     <Text Include="./src/textFile/LL1/LL1resultFile.txt" />
     <Text Include="./src/textFile/LL1/LL1transResult.txt" />
+    <Text Include="./src/textFile/SLR/SLRGrammarText.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,37 +5,29 @@ using namespace std;
 
 extern grammerStruct grammer;
 void menu();
-void initLL1();
-void initSLR();
+void initLL1(int);
+void initSLR(int);
+//避免执行额外的初始化操作
+int initRecord[10] = {};
 
 int main() {
 	int choice = 0;
-	//避免执行额外的初始化操作
-	int initRecord[10] = {};
 	do {
 		menu();
 		cin >> choice;
 		switch (choice)
 		{
 		case 1: {
-			if (!initRecord[choice]) {
-				initLL1();
-				//更新 初始化记录数组
-				memset(initRecord, 0, sizeof(initRecord));
-				initRecord[choice] = 1;
-			}
+			initLL1(choice);
 			//根据内存中数据结构分析记录的文法和分析表，对文件中的表达式进行LL1分析
 			run_ReadExp_LL1();
 			break;
 		}
 		case 2: {
-			if (!initRecord[choice]) {
-				initSLR();
-				memset(initRecord, 0, sizeof(initRecord));
-				initRecord[choice] = 1;
-			}
+			initSLR(choice);
 			// 进行SLR分析
 			run_ReadExp_SLR();
+			break;
 		}
 		case 3: {
 			printf("RPL\n");
@@ -62,7 +54,15 @@ void menu() {
 	cout << "请输入选项:";
 }
 
-void initLL1() {
+void initLL1(int choice) {
+	//上次执行过初始化化  跳过
+	if (initRecord[choice]) {
+		return;
+	}
+	//更新 初始化记录数组
+	memset(initRecord, 0, sizeof(initRecord));
+	initRecord[choice] = 1;
+
 	//LL1文件中文法读入
 	readLL1Grammar();
 
@@ -83,9 +83,15 @@ void initLL1() {
 	construct_LL1Table();
 }
 
-void initSLR() {
+void initSLR(int choice) {
+	if (initRecord[choice]) {
+		return;
+	}
+	memset(initRecord, 0, sizeof(initRecord));
+	initRecord[choice] = 1;
+
 	// SLR文件中读入文法
-	readGrammar();
+	readSLRGrammar();
 
 	// 构造相应的SLR的 空集、first集、follow集
 	calculate_NullAble();
