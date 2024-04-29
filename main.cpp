@@ -1,9 +1,9 @@
 #include"./include/LL1_info.h"
 #include"./include/SLR_info.h"
+#include"./include/Common_data.h"
 #include"./include/wordAnalyse_info.h"
 using namespace std;
 
-extern grammerStruct grammar;
 void menu();
 void initLL1Class(const int choice, LL1Class* LL1);
 void initSLRClass(const int choice, SLRClass* SLR);
@@ -66,7 +66,6 @@ void menu() {
 	cout << "请输入选项:";
 }
 
-
 void initLL1Class(const int choice, LL1Class *LL1) {
 	//上次执行过初始化化  跳过
 	if (initRecord[choice]) {
@@ -117,7 +116,7 @@ void initSLRClass(int choice, SLRClass* SLR) {
 	vector<item>originItemVector(1, { grammar.S, grammar.P[grammar.S][0], -1 });*/
 
 	//匿名定义
-	items_Node originNode(vector<item>(1, { grammar.S, grammar.P[grammar.S][0], -1 }));
+	items_Node originNode(vector<item>(1, { SLR->grammar.S, SLR->grammar.P[SLR->grammar.S][0], -1 }));
 	SLR->SLRAnaTableConstruct(originNode);
 
 	SLR->printSLRTabel();

@@ -1,25 +1,10 @@
 #include"../include/LL1_info.h"
 #include"../include/wordAnalyse_info.h"
 #include"../include/Common_data.h"
-#include"../include/Common_data.h"
 
 //全局变量
 const char* READGRAMMARFileName = "./src/textFile/LL1/grammarText.txt";
-const char* readLL1GrammarFile = "./src/textFile/LL1/LL1grammarText.txt";
-const char* readSLRGrammarFile = "./src/textFile/SLR/SLRGrammarText.txt";
 const char* WRITEGRAMMARFileName = "./src/textFile/LL1/LL1resultFile.txt";
-const char* writeLL1TransResultFile = "./src/textFile/LL1/LL1transResult.txt";
-
-char lineToken[50] = {};
-
-grammerStruct grammar;
-unordered_set<string>NullAble;
-unordered_map<string, unordered_set<string>>First, Follow;
-unordered_map<string, vector<pair<string, string>>>LL1_table;
-stack<string>analyseStack;
-vector<string>Productions;
-vector<string>VNT;
-
 
 bool LL1Class::readLL1Grammar() {
 	FILE* fp = fopen(readLL1GrammarFile, "r");

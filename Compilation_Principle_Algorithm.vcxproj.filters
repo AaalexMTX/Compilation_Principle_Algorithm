@@ -36,7 +36,7 @@
     <ClCompile Include="./src/SLRFunc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CommonFunc.cpp">
+    <ClCompile Include="./src/CommonFunc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

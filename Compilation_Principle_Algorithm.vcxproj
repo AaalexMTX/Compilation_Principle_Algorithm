@@ -136,7 +136,6 @@
       <ExcludedFromBuild>false</ExcludedFromBuild>
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild>false</ExcludedFromBuild>
       <Filter>src</Filter>
@@ -146,6 +145,10 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="./src/SLRFunc.cpp">
+      <ExcludedFromBuild>false</ExcludedFromBuild>
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/CommonFunc.cpp">
       <ExcludedFromBuild>false</ExcludedFromBuild>
       <Filter>src</Filter>
     </ClCompile>
@@ -165,8 +168,8 @@
     <Text Include="./src/textFile/LL1/LL1grammarText.txt" />
     <Text Include="./src/textFile/LL1/LL1resultFile.txt" />
     <Text Include="./src/textFile/LL1/LL1transResult.txt" />
+    <Text Include="./src/textFile/LL1/LL1_resultFile.txt" />
     <Text Include="./src/textFile/SLR/SLRGrammarText.txt" />
-    <Text Include="src\textFile\LL1\LL1_resultFile.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

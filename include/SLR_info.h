@@ -1,7 +1,5 @@
 #pragma once
 #include<iostream>
-#include<string>
-#include<vector>
 #include<queue>
 #include<algorithm>
 
@@ -84,20 +82,21 @@ public:
 	void calculate_First();
 	//计算Follow集合
 	void calculate_Follow();
-private:
+
 	//文法结构
 	struct grammarStruct {
-		string S;
-		set<string>Vt;
-		unordered_map<string, int>Vn;
-		unordered_map<string, vector<string>>P;
+		std::string S;
+		std::set<std::string>Vt;
+		std::unordered_map<std::string, int>Vn;
+		std::unordered_map<std::string, std::vector<std::string>>P;
 
-		grammarStruct() {};
-		//因为不能在 类中结构体外 初始化结构体
-		grammarStruct(const string& s, const set<string>& vt, const unordered_map<string, int>& vn, const unordered_map<string, vector<string>>& p)
-			: S(s), Vt(vt), Vn(vn), P(p) {}
+		//grammarStruct() {};
+		//grammarStruct(const string& s, const set<string>& vt, const unordered_map<string, int>& vn, const unordered_map<string, vector<string>>& p)
+		//	: S(s), Vt(vt), Vn(vn), P(p) {}
 	};
+	grammarStruct grammar;
 
+private:
 	const char* readSLRGrammarFile = "./src/textFile/SLR/SLRGrammarText.txt";
 	const char* readExpressionFile = "./src/textFile/ExpressionWord.txt";
 
@@ -107,11 +106,10 @@ private:
 	unordered_set<string>NullAble;
 	unordered_map<string, unordered_set<string>>First, Follow;
 
-	vector<items_Node>itemsNodeSet{};		//所有项目集
+	vector<items_Node>itemsNodeSet{};			//所有项目集
 	unordered_map<int, vector<pair<string, string>>>Action;		//Action表
 	unordered_map<int, vector<pair<string, string>>>Goto;		//Goto表
-	stack<int>State_Stack;					//状态栈	int型方便处理 多位数状态 
-	stack<string>Symbol_Stack;				//符号栈
+	stack<int>State_Stack;						//状态栈	int型方便处理 多位数状态 
+	stack<string>Symbol_Stack;					//符号栈
 	vector<string>VNT;
-
 };

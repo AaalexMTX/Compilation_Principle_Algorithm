@@ -3,17 +3,6 @@
 #include"../include/wordAnalyse_info.h"
 #include"../include/Common_data.h"
 
-extern grammerStruct grammar;
-extern vector<string>Productions;		//产生式数组 便于编号和规约
-extern unordered_map<string, unordered_set<string>>Follow;
-extern vector<string>VNT;				//取出文法中的Vn和Vt便于遍历
-
-vector<items_Node>itemsNodeSet(0);		//所有项目集
-unordered_map<int, vector<pair<string, string>>>Action;		//Action表
-unordered_map<int, vector<pair<string, string>>>Goto;		//Goto表
-stack<int>State_Stack;					//状态栈	int型方便处理 多位数状态 
-stack<string>Symbol_Stack;				//符号栈
-
 bool SLRClass::readSLRGrammar(){
 	FILE* fp = fopen(readSLRGrammarFile, "r");
 	//无判断 文件打开异常会中止程序
