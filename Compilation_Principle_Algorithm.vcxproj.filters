@@ -41,6 +41,9 @@
     <ClInclude Include="./include/LL1_info.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Common_data.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="./src/textFile/LL1/grammarText.txt" />

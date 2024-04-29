@@ -20,56 +20,56 @@ struct grammerStruct {
 	unordered_map<string, vector<string>>P;
 };
 
-//文法读入
-void readGrammar();
-
-//LL1文法读入  ---
-bool readLL1Grammar();
-
-//SLR文法读入
-bool readSLRGrammar();
-
-//格式化输出文法进文件
-void formatPrintIntoFile();
-
-//格式化输出文法进文件
-void formatPrintLL1IntoFile();
-
-//格式化输出文法
-void formatPrint();
+//得到完整符号
+string getFullChar(string candidate, int pos);
 
 //更新指针为 下一个非空字符
 int getBC(int pos, char line[]);
 
-//文件扫描录入文法
-void scan(char lineToken[]);
-
-//消除 产生式的直接左递归	
-void directLeftRecursion(string proLeft, vector<string>proRight);
-
-//消除 间接左递归	
-void remove_left_recursion();
-
-//提取左因子
-void remove_left_gene();
-
-//得到完整符号
-string getFullChar(string candidate, int pos);
-
-//计算空集
-void calculate_NullAble();
-
-//计算First集合
-void calculate_First();
-
-//计算Follow集合
-void calculate_Follow();
-
-//预测分析表的构造
-void construct_LL1Table();
-
-//预测程序
-bool LL1_predict(string inputExpression);
+////文法读入
+//void readGrammar();
+//
+////LL1文法读入  ---
+//bool readLL1Grammar();
+//
+////SLR文法读入
+//bool readSLRGrammar();
+//
+////格式化输出文法进文件
+//void formatPrintIntoFile();
+//
+////格式化输出文法进文件
+//void formatPrintLL1IntoFile();
+//
+////格式化输出文法
+//void formatPrint();
+//
+////文件扫描录入文法
+//void scan(char lineToken[]);
+//
+////消除 产生式的直接左递归	
+//void directLeftRecursion(string proLeft, vector<string>proRight);
+//
+////消除 间接左递归	
+//void remove_left_recursion();
+//
+////提取左因子
+//void remove_left_gene();
+//
+////计算空集
+//void calculate_NullAble();
+//
+////计算First集合
+//void calculate_First();
+//
+////计算Follow集合
+//void calculate_Follow();
+//
+////预测分析表的构造
+//void construct_LL1Table();
+//
+////预测程序
+//bool LL1_predict(string inputExpression);
 
 class LL1Class {
 public:
@@ -80,7 +80,8 @@ public:
 	LL1Class(){};
 	// 构造函数
 	LL1Class(const string& s, const set<string>& vt, const unordered_map<string, int>& vn, const unordered_map<string, vector<string>>& p)
-		: grammar(s, vt, vn, p) {}
+		: grammar(s, vt, vn, p) {
+	}
 	
 	//LL1文法读入
 	bool readLL1Grammar();					

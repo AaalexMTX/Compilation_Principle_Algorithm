@@ -31,35 +31,35 @@ int getBCExp(char line[], int pos) {
 	return nextStart;
 }
 
-void run_ReadExp_LL1() {
-	FILE* fp = fopen(readExpressionFile, "r");
-	if (fp == NULL) {
-		cout << "文件不存在";
-	}
-	else {
-		while (fgets(expLineToken, EXPMAXLEN, fp) != NULL) {
-			cout << expLineToken;
-			if (LL1_predict(ExpChange(expLineToken))) { cout << "YES" << endl; }
-			else cout << "NO" << endl;
-		}
-		fclose(fp);
-	}
-}
-
-void run_ReadExp_SLR() {
-	FILE* fp = fopen(readExpressionFile, "r");
-	if (fp == NULL) {
-		cout << "SLR_表达式文件不存在" << endl;
-	}
-	else {
-		while (fgets(expLineToken, EXPMAXLEN, fp) != NULL) {
-			cout << endl << string(expLineToken);
-			//SLR_predict(ExpChange(expLineToken));					//SLR分析结果
-			SLR_predict_AnalyseStack(ExpChange(expLineToken));	//SLR分析结果+分析栈
-		}
-		fclose(fp);
-	}
-}
+//void run_ReadExp_LL1() {
+//	FILE* fp = fopen(readExpressionFile, "r");
+//	if (fp == NULL) {
+//		cout << "文件不存在";
+//	}
+//	else {
+//		while (fgets(expLineToken, EXPMAXLEN, fp) != NULL) {
+//			cout << expLineToken;
+//			if (LL1_predict(ExpChange(expLineToken))) { cout << "YES" << endl; }
+//			else cout << "NO" << endl;
+//		}
+//		fclose(fp);
+//	}
+//}
+//
+//void run_ReadExp_SLR() {
+//	FILE* fp = fopen(readExpressionFile, "r");
+//	if (fp == NULL) {
+//		cout << "SLR_表达式文件不存在" << endl;
+//	}
+//	else {
+//		while (fgets(expLineToken, EXPMAXLEN, fp) != NULL) {
+//			cout << endl << string(expLineToken);
+//			//SLR_predict(ExpChange(expLineToken));					//SLR分析结果
+//			SLR_predict_AnalyseStack(ExpChange(expLineToken));	//SLR分析结果+分析栈
+//		}
+//		fclose(fp);
+//	}
+//}
 
 string ExpChange(char line[]) {
 	string elementType, elementValue;
