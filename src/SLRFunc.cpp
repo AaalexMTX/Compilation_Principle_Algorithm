@@ -2,6 +2,7 @@
 #include"../include/SLR_info.h"
 #include"../include/wordAnalyse_info.h"
 #include"../include/Common_data.h"
+using namespace std;
 
 bool SLRClass::readSLRGrammar(){
 	FILE* fp = fopen(readSLRGrammarFile, "r");

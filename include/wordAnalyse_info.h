@@ -1,5 +1,4 @@
 #pragma once
-
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<string>
@@ -22,4 +21,4 @@ int getBCExp(char line[], int pos);
 //void run_ReadExp_SLR();
 
 //表达式类型转换
-string ExpChange(char line[]);
+std::string ExpChange(char line[]);

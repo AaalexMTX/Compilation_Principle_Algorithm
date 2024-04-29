@@ -4,6 +4,8 @@ using namespace std;
 std::regex N("[A-Z]");
 std::regex T("[a-z0-9*+()&#]");
 
+char lineToken[50] = {};
+char expLineToken[50] = {};
 
 int getBC(int pos, char line[]) {
 	while (line[pos] == ' ' || line[pos] == '|' || line[pos] == '\t') {

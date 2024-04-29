@@ -1,12 +1,13 @@
 #pragma once
 #include<iostream>
 #include<queue>
-#include<algorithm>
+#include"../include/Common_data.h"
+
 
 //项目
 struct item {
-	string Proleft;
-	string ProCandidate;
+	std::string Proleft;
+	std::string ProCandidate;
 	int point;
 
 	//重载!=
@@ -20,14 +21,14 @@ struct item {
 	}
 	item() :Proleft(""), ProCandidate(""), point(-1) {}
 	//用产生式 + 点位置构造item
-	item(string Pleft, string PCan, int p)
+	item(std::string Pleft, std::string PCan, int p)
 		:Proleft(Pleft), ProCandidate(PCan), point(p) {}
 };
 
 //项目集节点
 struct items_Node {
 	int state_id;			//序号项目集
-	vector<item>items_Set;	//节点中所有项目
+	std::vector<item>items_Set;	//节点中所有项目
 	int originNum;			//记录初始项目数量
 
 	//无参构造
@@ -40,7 +41,7 @@ struct items_Node {
 		}
 		this->originNum = extendNode.originNum;
 	}
-	items_Node(const vector<item>& a) {
+	items_Node(const std::vector<item>& a) {
 		this->state_id = 0;
 		for (item i : a) {
 			this->items_Set.push_back(i);
@@ -58,7 +59,7 @@ public:
 	//求项目集的闭包
 	items_Node itemsNodeClosure(const items_Node& oriNode);
 	//初始项目集 接收x的goto项目集
-	items_Node itemsNodeGoto(const items_Node& oriNode, string X);
+	items_Node itemsNodeGoto(const items_Node& oriNode, std::string X);
 	//检测两个项目集是否相同
 	bool itemsNodeCheckSame(const items_Node& oriNode, const items_Node& nextNode);
 	//SLR分析表的构造
@@ -68,9 +69,9 @@ public:
 	//格式化输出分析表
 	void printSLRTabel();
 	//SLR分析预测程序
-	void SLR_predict(string inputExpression);
+	void SLR_predict(std::string inputExpression);
 	//SLR分析 并输出栈
-	void SLR_predict_AnalyseStack(string inputExpression);
+	void SLR_predict_AnalyseStack(std::string inputExpression);
 	//启动SLR分析
 	void run_ReadExp_SLR();
 
@@ -83,33 +84,22 @@ public:
 	//计算Follow集合
 	void calculate_Follow();
 
+	
 	//文法结构
-	struct grammarStruct {
-		std::string S;
-		std::set<std::string>Vt;
-		std::unordered_map<std::string, int>Vn;
-		std::unordered_map<std::string, std::vector<std::string>>P;
-
-		//grammarStruct() {};
-		//grammarStruct(const string& s, const set<string>& vt, const unordered_map<string, int>& vn, const unordered_map<string, vector<string>>& p)
-		//	: S(s), Vt(vt), Vn(vn), P(p) {}
-	};
 	grammarStruct grammar;
 
 private:
 	const char* readSLRGrammarFile = "./src/textFile/SLR/SLRGrammarText.txt";
 	const char* readExpressionFile = "./src/textFile/ExpressionWord.txt";
 
-	char lineToken[50] = {};		//记录文法结构(记录一行)
-	char expLineToken[50] = {};		//记录表达式结构（一行）
-	vector<string>Productions;
-	unordered_set<string>NullAble;
-	unordered_map<string, unordered_set<string>>First, Follow;
+	std::vector<std::string>Productions;
+	std::unordered_set<std::string>NullAble;
+	std::unordered_map<std::string, std::unordered_set<std::string>>First, Follow;
 
-	vector<items_Node>itemsNodeSet{};			//所有项目集
-	unordered_map<int, vector<pair<string, string>>>Action;		//Action表
-	unordered_map<int, vector<pair<string, string>>>Goto;		//Goto表
-	stack<int>State_Stack;						//状态栈	int型方便处理 多位数状态 
-	stack<string>Symbol_Stack;					//符号栈
-	vector<string>VNT;
+	std::vector<items_Node>itemsNodeSet{};			//所有项目集
+	std::unordered_map<int, std::vector<std::pair<std::string, std::string>>>Action;		//Action表
+	std::unordered_map<int, std::vector<std::pair<std::string, std::string>>>Goto;		//Goto表
+	std::stack<int>State_Stack;						//状态栈	int型方便处理 多位数状态 
+	std::stack<std::string>Symbol_Stack;					//符号栈
+	std::vector<std::string>VNT;
 };

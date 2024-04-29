@@ -1,17 +1,9 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #include<cstring>
-#include<iostream>
-#include<string>
-#include<vector>
-#include<set>
 #include<stack>
-#include<unordered_map>
-#include<unordered_set>
-#include<regex>
-#include<utility>		//pair对
-using namespace std;
-
+#include<utility>					//pair对
+#include"../include/Common_data.h"
 
 class LL1Class {
 public:
@@ -19,14 +11,14 @@ public:
 	const char* writeLL1TransResultFile = "./src/textFile/LL1/LL1transResult.txt";
 	const char* readExpressionFile = "./src/textFile/ExpressionWord.txt";
 
-	LL1Class(){};
+	LL1Class() {};
 	// 构造函数
 	/*LL1Class(const string& s, const set<string>& vt, const unordered_map<string, int>& vn, const unordered_map<string, vector<string>>& p)
 		: grammar(s, vt, vn, p) {
 	}*/
-	
+
 	//LL1文法读入
-	bool readLL1Grammar();					
+	bool readLL1Grammar();
 	//文件扫描录入文法
 	void scan(char lineToken[]);
 	//格式化输出文件
@@ -34,13 +26,13 @@ public:
 	//格式化输出文法进文件
 	void formatPrintLL1IntoFile();
 	//消除直接左递归
-	void directLeftRecursion(string proLeft, vector<string>proRight);
+	void directLeftRecursion(std::string proLeft, std::vector<std::string>proRight);
 	//消除 间接左递归	
 	void remove_left_recursion();
 	//提取左因子
 	void remove_left_gene();
 	//启动LL1分析
-	void run_ReadExp_LL1();					
+	void run_ReadExp_LL1();
 	//计算空集
 	void calculate_NullAble();
 	//计算First集合
@@ -50,28 +42,15 @@ public:
 	//预测分析表的构造
 	void construct_LL1Table();
 	//预测程序
-	bool LL1_predict(string inputExpression);
+	bool LL1_predict(std::string inputExpression);
 
-private:
 	//文法结构
-	struct grammarStruct {
-		string S;
-		set<string>Vt;
-		unordered_map<string, int>Vn;
-		unordered_map<string, vector<string>>P;
-
-		//grammarStruct() {};
-		////因为不能在 类中结构体外 初始化结构体
-		//grammarStruct(const string& s, const set<string>& vt, const unordered_map<string, int>& vn, const unordered_map<string, vector<string>>& p)
-		//	: S(s), Vt(vt), Vn(vn), P(p) {}
-	};
 	grammarStruct grammar;
+private:
 
-	char lineToken[50] = {};		//记录文法结构(记录一行)
-	char expLineToken[50] = {};		//记录表达式结构（一行）
-	unordered_set<string>NullAble;
-	unordered_map<string, unordered_set<string>>First, Follow;
-	unordered_map<string, vector<pair<string, string>>>LL1_table;
-	stack<string>analyseStack;
-	vector<string>Productions;
+	std::unordered_set<std::string>NullAble;
+	std::unordered_map<std::string, std::unordered_set<std::string>>First, Follow;
+	std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>>LL1_table;
+	std::stack<std::string>analyseStack;
+	std::vector<std::string>Productions;
 };

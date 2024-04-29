@@ -1,6 +1,7 @@
 #include"../include/LL1_info.h"
 #include"../include/wordAnalyse_info.h"
 #include"../include/Common_data.h"
+using namespace std;
 
 //全局变量
 const char* READGRAMMARFileName = "./src/textFile/LL1/grammarText.txt";
@@ -71,6 +72,30 @@ void LL1Class::scan(char line[]) {
 		else if (regex_match(checkString, T)) {
 			grammar.Vt.insert(checkString);
 		}
+	}
+}
+
+
+void LL1Class::formatPrint() {
+	for (unordered_map<string, vector<string>>::iterator it = grammar.P.begin(); it != grammar.P.end(); it++) {
+		cout << it->first << "->";
+		for (vector<string>::iterator itVector = it->second.begin(); itVector != it->second.end();itVector++) {
+			if (next(itVector) != it->second.end()) {
+				cout << *itVector << "|";
+			}
+			else {
+				cout << *itVector << ";" << endl;
+			}
+		}
+	}
+	cout << endl << "开始符号  S:  " << grammar.S;
+	cout << endl << "  终结符 Vn:  ";
+	for (unordered_map<string, int>::iterator it = grammar.Vn.begin(); it != grammar.Vn.end();it++) {
+		cout << it->first << " ";
+	}
+	cout << endl << "非终结符 Vt:  ";
+	for (set<string>::iterator it = grammar.Vt.begin(); it != grammar.Vt.end();it++) {
+		cout << *it << " ";
 	}
 }
 
