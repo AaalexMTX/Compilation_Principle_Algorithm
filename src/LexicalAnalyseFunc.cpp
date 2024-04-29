@@ -30,6 +30,13 @@ int getBCExp(char line[], int pos) {
 	return nextStart;
 }
 
+int getBCExp(string line, int pos) {
+	while (line[pos] == '\n' || line[pos] == ' ') {
+		pos++;
+	}
+	return pos;
+}
+
 string ExpChange(char line[]) {
 	string elementType, elementValue;
 	string ansExp = "";
@@ -118,4 +125,73 @@ string ExpChange(char line[]) {
 		ansExp += elementValue.c_str();
 	}
 	return ansExp;
+}
+
+
+pair<string, string> wordChange(string& line, int& linePf) {
+	string elementType, elementValue;	//类型 和 语义值
+	int wordPf = 0;						//遍历完整单词用
+	//一次分析
+	linePf = getBCExp(line, linePf);		//排除开头的空白符
+	memset(strToken, 0, 50);			//清空单词队列
+	//符号串
+	if (isLetter(line[linePf]) || line[linePf] == '_') {
+		while (isLetter(line[linePf]) || isNumber(line[linePf]) || line[linePf] == '_') {
+			strToken[wordPf++] = line[linePf++];
+		}
+		//无需 判断是否关键字
+		elementType = "str";
+		elementValue = "-1";
+	}
+	//整形
+	else if (isNumber(line[linePf])) {		//三种整数DFA不一致分开读
+		if (line[linePf] == '0') {
+			linePf++;							//不影响十进制读数
+			regex octCheck("[01234567]");
+			regex hexCheck("[0123456789abcdef]");
+			if (line[linePf] == 'x') {		//十六进制 
+				linePf++;						//不影响八进制读数
+				while (line[linePf] == '0')linePf++;		//把先导0读掉
+				while (regex_match(string(1, line[linePf]), hexCheck)) {
+					strToken[wordPf++] = line[linePf++];
+				}
+				elementType = "i";
+				elementValue = to_string(stoi(string(strToken), nullptr, 16));	//十六进 转 十进int 转 十进string
+			}
+			else if (regex_match(string(1, line[linePf]), octCheck)) {		//八进制
+				while (line[linePf] == '0')linePf++;		//读先导0
+				while (regex_match(string(1, line[linePf]), octCheck)) {		//第一位符合oct
+					strToken[wordPf++] = line[linePf++];
+					elementType = "i";
+					elementValue = to_string(stoi(string(strToken), nullptr, 8));
+				}
+			}
+			else {
+				elementType = "i";
+				elementValue = "0";
+			}
+		}
+		else {		//非0开头的十进制
+			while (isNumber(line[linePf])) {
+				strToken[wordPf++] = line[linePf++];
+			}
+			elementType = "i";
+			elementValue = string(strToken);
+		}
+	}
+	//运算符 包括++ += 不考虑
+	else if (regex_match(string(1, line[linePf]), operatePattern)) {	//regex_match正则匹配 参数1 -> char 转 string 
+		 //= 或 自身 再向后读一位
+		strToken[wordPf++] = line[linePf++];
+		elementType = string(strToken);
+		elementValue = string(strToken);
+	}
+	//界符
+	else if (regex_match(string(1, line[linePf]), delimiterPattern)) {
+		elementType = string(1, line[linePf]);
+		elementValue = "-";
+		linePf++;
+	}
+	linePf = getBCExp(line, linePf);	//排除末端空白符
+	return std::make_pair(elementType, elementValue);
 }

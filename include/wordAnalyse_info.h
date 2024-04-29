@@ -13,6 +13,9 @@ bool isLetter(char& c);
 
 //返回表达式 下一起始位置
 int getBCExp(char line[], int pos);
+//重载一个 做逆波兰式用
+int getBCExp(string line, int pos);
+
 
 //文件读入表达式并进行LL1分析
 //void run_ReadExp_LL1();
@@ -22,3 +25,6 @@ int getBCExp(char line[], int pos);
 
 //表达式类型转换
 std::string ExpChange(char line[]);
+
+//适配逆波兰式的词法分析
+pair<string, string> wordChange(string& line, int& linePf);

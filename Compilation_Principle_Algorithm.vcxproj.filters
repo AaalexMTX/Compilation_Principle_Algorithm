@@ -30,7 +30,7 @@
     <ClCompile Include="./src/LL1Func.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="./src/SLRAnaly.cpp">
+    <ClCompile Include="src\RPNFunc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="./src/SLRFunc.cpp">
@@ -53,6 +53,9 @@
     <ClInclude Include="./include/Common_data.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="RPN_info.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="./src/textFile/LL1/grammarText.txt" />
@@ -67,8 +70,6 @@
     <Text Include="./src/textFile/LL1/LL1transResult.txt">
       <Filter>数据文件\LL1</Filter>
     </Text>
-    <Text Include="src\textFile\LL1\LL1_resultFile.txt">
-      <Filter>数据文件\LL1</Filter>
-    </Text>
+    <Text Include="./src/textFile/LL1/LL1_resultFile.txt" />
   </ItemGroup>
 </Project>

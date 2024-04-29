@@ -127,3 +127,16 @@ run_ReadExp_SLR();
         Action();
         Goto();
 ```
+
+## RPN（reverse polish noation 逆波兰式）
+```cpp
+//依托于SLR分析
+readSLRGrammar();
+calculate_NullAble();
+calculate_First();
+calculate_Follow();
+SLRAnaTableConstruct(originNode);       //构造SLR分析表
+ReadExp_SLR();                          //RPN分析
+    //区别在于分析的方式不同
+    void SLR_predict_SemanticAnalyse_AnalyseStack(const char *line)     
+```
