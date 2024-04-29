@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="数据文件">
+      <UniqueIdentifier>{44b2722d-becf-4a25-8b35-1be4c65f308e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="数据文件\LL1">
+      <UniqueIdentifier>{6d90028d-88b2-4742-bd6e-9b92b42a3cc5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -30,6 +36,9 @@
     <ClCompile Include="./src/SLRFunc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CommonFunc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./include/SLR_info.h">
@@ -41,16 +50,25 @@
     <ClInclude Include="./include/LL1_info.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Common_data.h">
+    <ClInclude Include="./include/Common_data.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="./src/textFile/LL1/grammarText.txt" />
     <Text Include="./src/textFile/ExpressionWord.txt" />
-    <Text Include="./src/textFile/LL1/LL1grammarText.txt" />
-    <Text Include="./src/textFile/LL1/LL1resultFile.txt" />
-    <Text Include="./src/textFile/LL1/LL1transResult.txt" />
     <Text Include="./src/textFile/SLR/SLRGrammarText.txt" />
+    <Text Include="./src/textFile/LL1/LL1grammarText.txt">
+      <Filter>数据文件\LL1</Filter>
+    </Text>
+    <Text Include="./src/textFile/LL1/LL1resultFile.txt">
+      <Filter>数据文件\LL1</Filter>
+    </Text>
+    <Text Include="./src/textFile/LL1/LL1transResult.txt">
+      <Filter>数据文件\LL1</Filter>
+    </Text>
+    <Text Include="src\textFile\LL1\LL1_resultFile.txt">
+      <Filter>数据文件\LL1</Filter>
+    </Text>
   </ItemGroup>
 </Project>

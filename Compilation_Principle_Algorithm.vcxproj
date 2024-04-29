@@ -136,6 +136,7 @@
       <ExcludedFromBuild>false</ExcludedFromBuild>
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild>false</ExcludedFromBuild>
       <Filter>src</Filter>
@@ -156,7 +157,7 @@
     </ClInclude>
     <ClInclude Include="./include/wordAnalyse_info.h">
     </ClInclude>
-    <ClInclude Include="Common_data.h" />
+    <ClInclude Include="./include/Common_data.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="./src/textFile/LL1/grammarText.txt" />
@@ -165,6 +166,7 @@
     <Text Include="./src/textFile/LL1/LL1resultFile.txt" />
     <Text Include="./src/textFile/LL1/LL1transResult.txt" />
     <Text Include="./src/textFile/SLR/SLRGrammarText.txt" />
+    <Text Include="src\textFile\LL1\LL1_resultFile.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

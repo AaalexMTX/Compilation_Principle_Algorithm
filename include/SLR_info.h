@@ -112,30 +112,6 @@ private:
 	unordered_map<int, vector<pair<string, string>>>Goto;		//Goto表
 	stack<int>State_Stack;					//状态栈	int型方便处理 多位数状态 
 	stack<string>Symbol_Stack;				//符号栈
+	vector<string>VNT;
+
 };
-
-
-
-////求项目集的闭包
-//items_Node itemsNodeClosure(const items_Node& oriNode);
-//
-////初始项目集 接收x的goto项目集
-//items_Node itemsNodeGoto(const items_Node& oriNode, string X);
-//
-////检测两个项目集是否相同
-//bool itemsNodeCheckSame(const items_Node& oriNode, const items_Node& nextNode);
-//
-////SLR分析表的构造
-//void SLRAnaTableConstruct(items_Node& oriNode);
-//
-////VTN 取出表达式中Vt和Vn
-//void constructVTN();
-//
-////格式化输出分析表
-//void printSLRTabel();
-//
-////SLR分析预测程序
-//void SLR_predict(string inputExpression);
-//
-////SLR分析 并输出栈
-//void SLR_predict_AnalyseStack(string inputExpression);
