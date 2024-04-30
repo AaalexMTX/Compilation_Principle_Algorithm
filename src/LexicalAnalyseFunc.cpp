@@ -29,6 +29,7 @@ int getBCExp(char line[], int pos) {
 	}
 	return nextStart;
 }
+
 int getBCExp(string line, int pos) {
 	while (line[pos] == '\n' || line[pos] == ' ') {
 		pos++;
@@ -125,7 +126,6 @@ string ExpChange(char line[]) {
 	}
 	return ansExp;
 }
-
 
 pair<string, string> wordChange(string& line, int& linePf) {
 	string elementType, elementValue;	//类型 和 语义值

@@ -3,79 +3,6 @@
 #include"../include/Common_data.h"
 using namespace std;
 
-//全局变量
-const char* READGRAMMARFileName = "./src/textFile/LL1/grammarText.txt";
-const char* WRITEGRAMMARFileName = "./src/textFile/LL1/LL1resultFile.txt";
-
-bool LL1Class::readLL1Grammar() {
-	FILE* fp = fopen(readLL1GrammarFile, "r");
-	//无判断 文件打开异常会中止程序
-	if (fp == NULL) {
-		cout << "LL1GrammarFile Not Exist";
-		return false;
-	}
-	else {
-		//std::memset(lineToken, '\0', sizeof(lineToken));  ???
-		while (fgets(lineToken, 50, fp) != NULL) {
-			scan(lineToken);
-		}
-		//文件句柄开了得关
-		fclose(fp);
-	}
-	return true;
-}
-
-void LL1Class::scan(char line[]) {
-	string product = line;
-	//记录产生式的 左部 和 右部候选式
-	string product_left, product_right;
-	int startPos = 0, length = 0;
-	if (product.find('-', startPos) != string::npos) {
-		//取产生式左部
-		startPos = getBC(startPos, line);
-		while (regex_match(string(1, line[startPos + length]), N)) {
-			length++;
-		}
-		product_left = product.substr(startPos, length);
-		//取产生式右部
-		startPos = product.find('-', startPos) + 2;
-		startPos = getBC(startPos, line);
-		char moveCheck = line[startPos];
-		length = 0;
-		while (moveCheck != ';' && moveCheck != '\n' && moveCheck != '\0' && startPos <= product.length() - 1) {
-			while (moveCheck != ' ' && moveCheck != '|' && moveCheck != ';' && moveCheck != '\n' && moveCheck != '\0') {
-				length++;
-				moveCheck = line[startPos + length];
-			}
-			//起始位置+长度	取候选式 
-			product_right = product.substr(startPos, length);
-			grammar.P[product_left].push_back(product_right);
-			//更新下一次读取的起始位置 及 长度
-			startPos = getBC(startPos + length + 1, line);
-			moveCheck = line[startPos];
-			length = 0;
-
-			//实验五中加入产生式数组 便于编号和归约
-			Productions.push_back(string(product_left + "->" + product_right));
-		}
-	}
-	//读入Vn Vt -- 无法读入开始时文法 以A' 等两位做 非终结符的
-	for (int i = 0;i < product.length(); i++) {
-		if (product[i] == '\n' || product[i] == '\0') { break; }
-
-		string checkString = string(1, product[i]);
-		if (regex_match(checkString, N)) {
-			grammar.Vn[checkString] = 1;
-			// Vn集合中的一个元素 是开始符号S
-			if (grammar.S == "") { grammar.S = checkString; }
-		}
-		else if (regex_match(checkString, T)) {
-			grammar.Vt.insert(checkString);
-		}
-	}
-}
-
-
 void LL1Class::formatPrint() {
 	for (unordered_map<string, vector<string>>::iterator it = grammar.P.begin(); it != grammar.P.end(); it++) {
 		cout << it->first << "->";
@@ -101,28 +28,8 @@ void LL1Class::formatPrint() {
 
 void LL1Class::formatPrintLL1IntoFile() {
 	if (freopen(writeLL1TransResultFile, "w", stdout) != NULL) {
-
 		//格式化输出文法
-		for (unordered_map<string, vector<string>>::iterator it = grammar.P.begin(); it != grammar.P.end(); it++) {
-			cout << it->first << "->";
-			for (vector<string>::iterator itVector = it->second.begin(); itVector != it->second.end();itVector++) {
-				if (next(itVector) != it->second.end()) {
-					cout << *itVector << "|";
-				}
-				else {
-					cout << *itVector << ";" << endl;
-				}
-			}
-		}
-		cout << endl << "开始符号  S:  " << grammar.S;
-		cout << endl << "  终结符 Vn:  ";
-		for (unordered_map<string, int>::iterator it = grammar.Vn.begin(); it != grammar.Vn.end();it++) {
-			cout << it->first << " ";
-		}
-		cout << endl << "非终结符 Vt:  ";
-		for (set<string>::iterator it = grammar.Vt.begin(); it != grammar.Vt.end();it++) {
-			cout << *it << " ";
-		}
+		formatPrint();
 		//把标准输出改回控制台
 		auto _ = freopen("CON", "w", stdout);
 	}
@@ -478,7 +385,7 @@ bool LL1Class::LL1_predict(string inputExpression) {
 }
 
 void LL1Class::run_ReadExp_LL1() {
-	FILE* fp = fopen(readExpressionFile, "r");
+	FILE* fp = fopen(readLL1ExpressionFile, "r");
 	if (fp == NULL) {
 		cout << "Expression File Not Exist";
 	}

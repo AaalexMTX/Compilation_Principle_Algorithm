@@ -51,6 +51,7 @@ B->aA|bB;
 2. 项目文件config（VS）
    - 在 .vcxproj文件中完成vs逻辑和物理文件的映射
    - 在 .vcxproj.filters 中配置文件在VS中的逻辑组织
+   - [详情见_文档_./doc/config.md](./doc/config.md)
 3. 使用
    - VS2022
    - STL操作+OOP封装

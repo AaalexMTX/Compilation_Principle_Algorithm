@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include<algorithm>
 #include<iostream>
 #include<regex>
@@ -17,7 +18,14 @@ extern std::regex T;							//正则
 extern char lineToken[50];						//记录文法结构(记录一行)
 extern char expLineToken[50];					//记录表达式结构（一行）
 
-//文法结构
+//--词法分析
+//得到完整符号
+std::string getFullChar(std::string candidate, int pos);
+
+//更新指针为 下一个非空字符
+int getBC(int pos, char line[]);
+
+//--文法结构
 extern struct grammarStruct {
 	std::string S;
 	std::set<std::string>Vt;
@@ -27,8 +35,14 @@ extern struct grammarStruct {
 	grammarStruct() {};
 };
 
-//SLR
-//项目
+//文件中读出文法
+bool readGrammar(const char* GrammarFile, grammarStruct& grammar, std::vector<std::string>& Productions);
+
+//文件扫描表达式录入文法
+void scanCandidateIntoGrammar(char line[], grammarStruct& grammar, std::vector<std::string>& Productions);
+
+//--SLR
+//项目 -- 只是SLR分析的工具 SLR对象不持有
 struct item {
 	std::string Proleft;
 	std::string ProCandidate;
@@ -73,9 +87,3 @@ struct items_Node {
 		this->originNum = a.size();
 	}
 };
-
-//得到完整符号
-std::string getFullChar(std::string candidate, int pos);
-
-//更新指针为 下一个非空字符
-int getBC(int pos, char line[]);

@@ -4,6 +4,8 @@
 #include<string>
 #include<cstring>
 #include<regex>
+#include"../include/Common_data.h"
+
 
 //判断字符是否为数字
 bool isNumber(char& c);
@@ -16,13 +18,6 @@ int getBCExp(char line[], int pos);
 
 //重载一个 做逆波兰式用
 int getBCExp(std::string line, int pos);
-
-
-//文件读入表达式并进行LL1分析
-//void run_ReadExp_LL1();
-
-//文件读入表达式 并进行SLR分析
-//void run_ReadExp_SLR();
 
 //表达式类型转换
 std::string ExpChange(char line[]);

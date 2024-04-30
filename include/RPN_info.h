@@ -6,10 +6,14 @@
 
 class RPNClass {
 public:
+	const char* readRPNGrammarFile = "./src/textFile/RPN/RPNGrammarText.txt";
+	const char* readRPNExpressionFile = "./src/textFile/RPN/RPNExpressionWord.txt";
+	//文法结构
+	grammarStruct grammar;
+	std::vector<std::string>Productions;
+
 	RPNClass() {};
 
-	//读入文法
-	bool readRPNGrammar();
 	//求项目集的闭包
 	items_Node itemsNodeClosure(const items_Node& oriNode);
 	//初始项目集 接收x的goto项目集
@@ -29,8 +33,6 @@ public:
 	//启动SLR分析
 	void run_ReadExp_SLR();
 
-	//文件扫描录入文法
-	void scan(char lineToken[]);
 	//计算空集
 	void calculate_NullAble();
 	//计算First集合
@@ -47,15 +49,9 @@ public:
 	//开启RPN分析（可以提出来）
 	void runn_ReadExp_RPN();
 
-	//文法结构
-	grammarStruct grammar;
 
 private:
-	const char* readRPNGrammarFile = "./src/textFile/RPN/RPNGrammarText.txt";
-	const char* readExpressionFile = "./src/textFile/ExpressionWord.txt";
-	const char* readRPNExpressionFile = "./src/textFile/RPN/RPNExpressionWord.txt";
 
-	std::vector<std::string>Productions;
 	std::unordered_set<std::string>NullAble;
 	std::unordered_map<std::string, std::unordered_set<std::string>>First, Follow;
 

@@ -6,10 +6,15 @@
 
 class SLRClass {
 public:
+	const char* readSLRGrammarFile = "./src/textFile/SLR/SLRGrammarText.txt";
+	const char* readSLRExpressionFile = "./src/textFile/SLR/SLRExpressionWord.txt";
+	//文法结构
+	grammarStruct grammar;
+	std::vector<std::string>Productions;
+
 	SLRClass() {};
 
-	//读入SLR 文法
-	bool readSLRGrammar();
+	
 	//求项目集的闭包
 	items_Node itemsNodeClosure(const items_Node& oriNode);
 	//初始项目集 接收x的goto项目集
@@ -29,8 +34,6 @@ public:
 	//启动SLR分析
 	void run_ReadExp_SLR();
 
-	//文件扫描录入文法
-	void scan(char lineToken[]);
 	//计算空集
 	void calculate_NullAble();
 	//计算First集合
@@ -38,15 +41,8 @@ public:
 	//计算Follow集合
 	void calculate_Follow();
 
-	
-	//文法结构
-	grammarStruct grammar;
-
 private:
-	const char* readSLRGrammarFile = "./src/textFile/SLR/SLRGrammarText.txt";
-	const char* readExpressionFile = "./src/textFile/ExpressionWord.txt";
 
-	std::vector<std::string>Productions;
 	std::unordered_set<std::string>NullAble;
 	std::unordered_map<std::string, std::unordered_set<std::string>>First, Follow;
 
@@ -54,6 +50,6 @@ private:
 	std::unordered_map<int, std::vector<std::pair<std::string, std::string>>>Action;		//Action表
 	std::unordered_map<int, std::vector<std::pair<std::string, std::string>>>Goto;		//Goto表
 	std::stack<int>State_Stack;						//状态栈	int型方便处理 多位数状态 
-	std::stack<std::string>Symbol_Stack;					//符号栈
+	std::stack<std::string>Symbol_Stack;			//符号栈
 	std::vector<std::string>VNT;
 };

@@ -165,14 +165,15 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="./src/textFile/LL1/grammarText.txt" />
-    <Text Include="./src/textFile/ExpressionWord.txt" />
-    <Text Include="src\textFile\LL1\LL1GrammarText.txt" />
-    <Text Include="./src/textFile/LL1/LL1resultFile.txt" />
+    <Text Include="./src/textFile/LL1/LL1GrammarText.txt" />
     <Text Include="./src/textFile/LL1/LL1transResult.txt" />
-    <Text Include="./src/textFile/LL1/LL1_resultFile.txt" />
+    <Text Include="./src/textFile/LL1/LL1ExpressionWord.txt" />
+    <Text Include="./src/textFile/ExpressionWord.txt" />
     <Text Include="./src/textFile/SLR/SLRGrammarText.txt" />
     <Text Include="./src/textFile/RPN/RPNGrammarText.txt" />
-    <Text Include="src\textFile\RPN\RPNExpressionWord.txt" />
+    <Text Include="./src/textFile/RPN/RPNExpressionWord.txt" />
+    <Text Include="./src/textFile/SLR/SLRExpressionWord.txt" />
+    <Text Include="src\textFile\LL1\LL1transGrammarText.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

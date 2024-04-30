@@ -8,8 +8,9 @@
 class LL1Class {
 public:
 	const char* readLL1GrammarFile = "./src/textFile/LL1/LL1GrammarText.txt";
+	const char* readtransLL1GrammarFile = "./src/textFile/LL1/LL1GrammarText.txt";
+	const char* readLL1ExpressionFile = "./src/textFile/LL1/LL1ExpressionWord.txt";
 	const char* writeLL1TransResultFile = "./src/textFile/LL1/LL1transResult.txt";
-	const char* readExpressionFile = "./src/textFile/ExpressionWord.txt";
 
 	LL1Class() {};
 	// 构造函数
@@ -17,10 +18,6 @@ public:
 		: grammar(s, vt, vn, p) {
 	}*/
 
-	//LL1文法读入
-	bool readLL1Grammar();
-	//文件扫描录入文法
-	void scan(char lineToken[]);
 	//格式化输出文件
 	void formatPrint();
 	//格式化输出文法进文件
@@ -46,11 +43,12 @@ public:
 
 	//文法结构
 	grammarStruct grammar;
+	//顺序记录文法的符号
+	std::vector<std::string>Productions;
 private:
 
 	std::unordered_set<std::string>NullAble;
 	std::unordered_map<std::string, std::unordered_set<std::string>>First, Follow;
 	std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>>LL1_table;
 	std::stack<std::string>analyseStack;
-	std::vector<std::string>Productions;
 };
