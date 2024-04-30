@@ -29,7 +29,6 @@ int getBCExp(char line[], int pos) {
 	}
 	return nextStart;
 }
-
 int getBCExp(string line, int pos) {
 	while (line[pos] == '\n' || line[pos] == ' ') {
 		pos++;

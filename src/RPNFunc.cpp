@@ -4,8 +4,8 @@
 #include"../include/Common_data.h"
 using namespace std;
 
-bool RPNClass::readSLRGrammar() {
-	FILE* fp = fopen(readSLRGrammarFile, "r");
+bool RPNClass::readRPNGrammar() {
+	FILE* fp = fopen(readRPNGrammarFile, "r");
 	//无判断 文件打开异常会中止程序
 	if (fp == NULL) {
 		cout << "SLRGrammarFile Not Exist";
@@ -674,7 +674,6 @@ void RPNClass::semanticAction(int actionIndex, pair<string, string>& proLeftNode
 
 }
 
-
 //1. RPN
 void RPNClass::SLR_predict_SemanticAnalyse_AnalyseStack(const char* line) {
 	while (!Symbol_Stack_Semantic.empty()) { Symbol_Stack_Semantic.pop(); }
@@ -782,6 +781,22 @@ void RPNClass::SLR_predict_SemanticAnalyse_AnalyseStack(const char* line) {
 			cout << "\tWA\n";
 			cout << "WA_Action\n\n";
 			break;
+		}
+	}
+}
+
+void RPNClass::runn_ReadExp_RPN() {
+	FILE* fp = fopen(readRPNExpressionFile, "r");
+	if (fp == NULL) {
+		cout << "RPN文法文件不存在" << endl;
+	}
+	else {
+		while (fgets(expLineToken, 50, fp) != NULL) {
+			cout << string(expLineToken);
+			//SLR_predict(ExpChange(expLineToken));					//SLR分析结果
+			//SLR_predict_AnalyseStack(ExpChange(expLineToken));	//SLR分析结果+分析栈
+			//SLR_predict_SemanticAnalyse(expLineToken);
+			SLR_predict_SemanticAnalyse_AnalyseStack(expLineToken); //SLR分析结果+分析栈+逆波兰式 
 		}
 	}
 }

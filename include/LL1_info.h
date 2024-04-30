@@ -7,7 +7,7 @@
 
 class LL1Class {
 public:
-	const char* readLL1GrammarFile = "./src/textFile/LL1/LL1grammarText.txt";
+	const char* readLL1GrammarFile = "./src/textFile/LL1/LL1GrammarText.txt";
 	const char* writeLL1TransResultFile = "./src/textFile/LL1/LL1transResult.txt";
 	const char* readExpressionFile = "./src/textFile/ExpressionWord.txt";
 

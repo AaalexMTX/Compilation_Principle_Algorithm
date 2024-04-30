@@ -19,6 +19,9 @@
     <Filter Include="数据文件\LL1">
       <UniqueIdentifier>{6d90028d-88b2-4742-bd6e-9b92b42a3cc5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="数据文件\RPN">
+      <UniqueIdentifier>{0a14eb9b-f117-44e9-8667-af7843e1a64b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -30,13 +33,13 @@
     <ClCompile Include="./src/LL1Func.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\RPNFunc.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="./src/SLRFunc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="./src/CommonFunc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/RPNFunc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,7 +56,7 @@
     <ClInclude Include="./include/Common_data.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="RPN_info.h">
+    <ClInclude Include="./include/RPN_info.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -61,7 +64,7 @@
     <Text Include="./src/textFile/LL1/grammarText.txt" />
     <Text Include="./src/textFile/ExpressionWord.txt" />
     <Text Include="./src/textFile/SLR/SLRGrammarText.txt" />
-    <Text Include="./src/textFile/LL1/LL1grammarText.txt">
+    <Text Include="src\textFile\LL1\LL1GrammarText.txt">
       <Filter>数据文件\LL1</Filter>
     </Text>
     <Text Include="./src/textFile/LL1/LL1resultFile.txt">
@@ -70,6 +73,14 @@
     <Text Include="./src/textFile/LL1/LL1transResult.txt">
       <Filter>数据文件\LL1</Filter>
     </Text>
-    <Text Include="./src/textFile/LL1/LL1_resultFile.txt" />
+    <Text Include="./src/textFile/LL1/LL1_resultFile.txt">
+      <Filter>数据文件\LL1</Filter>
+    </Text>
+    <Text Include="./src/textFile/RPN/RPNGrammarText.txt">
+      <Filter>数据文件\RPN</Filter>
+    </Text>
+    <Text Include="src\textFile\RPN\RPNExpressionWord.txt">
+      <Filter>数据文件\RPN</Filter>
+    </Text>
   </ItemGroup>
 </Project>
