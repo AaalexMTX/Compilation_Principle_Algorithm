@@ -4,16 +4,11 @@
 #include<stack>
 #include"../include/Common_data.h"
 
-class SLRClass {
+class SLRClass: public Grammar_set {
 public:
 	const char* readSLRGrammarFile = "./src/textFile/SLR/SLRGrammarText.txt";
 	const char* readSLRExpressionFile = "./src/textFile/SLR/SLRExpressionWord.txt";
-	//文法结构
-	grammarStruct grammar;
-	std::vector<std::string>Productions;
-
 	SLRClass() {};
-
 	
 	//求项目集的闭包
 	items_Node itemsNodeClosure(const items_Node& oriNode);
@@ -34,17 +29,7 @@ public:
 	//启动SLR分析
 	void run_ReadExp_SLR();
 
-	//计算空集
-	void calculate_NullAble();
-	//计算First集合
-	void calculate_First();
-	//计算Follow集合
-	void calculate_Follow();
-
 private:
-
-	std::unordered_set<std::string>NullAble;
-	std::unordered_map<std::string, std::unordered_set<std::string>>First, Follow;
 
 	std::vector<items_Node>itemsNodeSet{};			//所有项目集
 	std::unordered_map<int, std::vector<std::pair<std::string, std::string>>>Action;		//Action表

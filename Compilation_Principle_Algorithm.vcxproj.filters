@@ -87,7 +87,7 @@
     <Text Include="./src/textFile/RPN/RPNExpressionWord.txt">
       <Filter>数据文件\RPN</Filter>
     </Text>
-    <Text Include="src\textFile\LL1\LL1transGrammarText.txt">
+    <Text Include="./src/textFile/LL1/LL1transGrammarText.txt">
       <Filter>数据文件\LL1</Filter>
     </Text>
   </ItemGroup>

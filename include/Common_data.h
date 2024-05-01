@@ -15,8 +15,10 @@
 extern std::regex N;
 extern std::regex T;							//正则
 
-extern char lineToken[50];						//记录文法结构(记录一行)
+extern char lineToken[128];						//记录文法结构(记录一行)
 extern char expLineToken[50];					//记录表达式结构（一行）
+extern char strToken[50];						//词法分析记录
+
 
 //--词法分析
 //得到完整符号
@@ -35,11 +37,42 @@ extern struct grammarStruct {
 	grammarStruct() {};
 };
 
-//文件中读出文法
-bool readGrammar(const char* GrammarFile, grammarStruct& grammar, std::vector<std::string>& Productions);
+//基本文法结构
+class Grammar_set {
+public:
+	const char* readGrammarFile = "./src/textFile/grammarText.txt";
+	const char* writeGrammerFile = "";
 
-//文件扫描表达式录入文法
-void scanCandidateIntoGrammar(char line[], grammarStruct& grammar, std::vector<std::string>& Productions);
+	//文法
+	grammarStruct grammar;
+	//顺序记录产生式
+	std::vector<std::string>Productions;
+	Grammar_set() {};
+
+	//计算空集
+	void calculate_NullAble();
+	//计算First集合
+	void calculate_First();
+	//计算Follow集合
+	void calculate_Follow();
+
+	//文件中读出文法
+	bool readGrammar(const char* GrammarFile);
+
+	//文件扫描表达式录入文法
+	void scanCandidateIntoGrammar(char line[]);
+
+	//格式化输出文法
+	void formatPrint();
+
+	//格式化输出文法进文件
+	void formatPrintLL1IntoFile(const char* writeLL1TransResultFile);
+
+protected:
+	std::unordered_set<std::string>NullAble;
+	std::unordered_map<std::string, std::unordered_set<std::string>>First, Follow;
+};
+
 
 //--SLR
 //项目 -- 只是SLR分析的工具 SLR对象不持有

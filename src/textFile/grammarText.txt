@@ -1,0 +1,6 @@
+S->Qc;
+Q ->b;
+S->c ;
+Q-> Rb;
+R->Sa;
+R->af;

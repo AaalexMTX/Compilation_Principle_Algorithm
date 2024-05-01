@@ -15,6 +15,7 @@ void pretreatLL1Class(const int&, LL1Class*);
 
 int main() {
 	int choice = 0;
+	Grammar_set grammar = Grammar_set();
 	LL1Class LL1 = LL1Class();
 	LL1Class LL1pre = LL1Class();
 	SLRClass SLR = SLRClass();
@@ -25,15 +26,17 @@ int main() {
 		switch (choice)
 		{
 		case 1: {
-			//initLL1(choice);
-			//根据内存中数据结构分析记录的文法和分析表，对文件中的表达式进行LL1分析
-			//run_ReadExp_LL1();
+			auto _ = readWordFile(readExpressionFile);
 			break;
 		}
 		case 2: {
-			//initSLR(choice);
-			// 进行SLR分析
-			//run_ReadExp_SLR();
+			// 读一次文法
+			if (!initRecord[choice]) {
+				grammar.readGrammar(grammar.readGrammarFile);
+				//更新 初始化记录数组
+				initRecord[choice] = 1;
+			}
+			grammar.formatPrint();
 			break;
 		}
 		case 3: {
@@ -49,6 +52,8 @@ int main() {
 		case 5: {
 			initSLRClass(choice, &SLR);
 			SLR.run_ReadExp_SLR();
+			SLR.printSLRTabel();
+
 			break;
 		}
 		case 6: {
@@ -77,27 +82,26 @@ void menu() {
 	cout << "请输入选项:";
 }
 
-
-void pretreatLL1Class(const int& choice, LL1Class* LL1) {
+//初始化LL1预处理对象（消除左递归+提公因式）
+void pretreatLL1Class(const int& choice, LL1Class* LL1pre) {
 	//上次执行过初始化化  跳过
 	if (initRecord[choice]) {
 		return;
 	}
 	//更新 初始化记录数组
-	memset(initRecord, 0, sizeof(initRecord));
 	initRecord[choice] = 1;
 
 	//LL1文件中文法读入
-	if (!readGrammar(LL1->readLL1GrammarFile, LL1->grammar, LL1->Productions)) {
+	if (!LL1pre->readGrammar(LL1pre->readtransLL1GrammarFile)) {
 		return;
 	}
 
 	//消除左递归 和 前缀
-	LL1->remove_left_recursion();
-	LL1->remove_left_gene();
+	LL1pre->remove_left_recursion();
+	LL1pre->remove_left_gene();
 
 	// 将标准文法写入文件
-	LL1->formatPrintLL1IntoFile();
+	LL1pre->formatPrintLL1IntoFile(LL1pre->writeLL1TransResultFile);
 }
 
 //初始化LL1对象
@@ -107,11 +111,11 @@ void initLL1Class(const int& choice, LL1Class* LL1) {
 		return;
 	}
 	//更新 初始化记录数组
-	memset(initRecord, 0, sizeof(initRecord));
+	//memset(initRecord, 0, sizeof(initRecord));
 	initRecord[choice] = 1;
 
 	//LL1文件中文法读入
-	if (!readGrammar(LL1->readLL1GrammarFile, LL1->grammar, LL1->Productions)) {
+	if (!LL1->readGrammar(LL1->readLL1GrammarFile)) {
 		return;
 	}
 
@@ -136,12 +140,11 @@ void initSLRClass(const int& choice, SLRClass* SLR) {
 	if (initRecord[choice]) {
 		return;
 	}
-	memset(initRecord, 0, sizeof(initRecord));
 
 	initRecord[choice] = 1;
 
 	// SLR文件中读入文法
-	if (!readGrammar(SLR->readSLRGrammarFile, SLR->grammar, SLR->Productions)) {
+	if (!SLR->readGrammar(SLR->readSLRGrammarFile)) {
 		return;
 	}
 
@@ -157,7 +160,6 @@ void initSLRClass(const int& choice, SLRClass* SLR) {
 	items_Node originNode(vector<item>(1, { SLR->grammar.S, SLR->grammar.P[SLR->grammar.S][0], -1 }));
 	SLR->SLRAnaTableConstruct(originNode);
 
-	SLR->printSLRTabel();
 };
 
 //初始化RPN对象
@@ -165,12 +167,11 @@ void initRPNClass(const int& choice, RPNClass* RPN) {
 	if (initRecord[choice]) {
 		return;
 	}
-	memset(initRecord, 0, sizeof(initRecord));
 
 	initRecord[choice] = 1;
 
 	// 文件中读入文法
-	if (!readGrammar(RPN->readRPNGrammarFile, RPN->grammar, RPN->Productions)) {
+	if (!RPN->readGrammar(RPN->readRPNGrammarFile)) {
 		return;
 	}
 

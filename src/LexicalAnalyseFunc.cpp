@@ -3,14 +3,13 @@
 #include"../include/wordAnalyse_info.h"
 using namespace std;
 
-const char* readExpressionFile = "./src/textFile/ExpressionWord.txt";
-char strToken[50] = {};
-
 regex delimiterPattern("[()[\\]{},.;:'\"?@#$\\\\]");		//界符正则
-regex operatePattern("[=+-/*%/&|!^<>]");	//运算符正则
+regex operatePattern("[=+-/*%/&|!^<>]");					//运算符正则
+const char* readExpressionFile = "./src/textFile/ExpressionWord.txt";
 char keyWords[][10] = { "int", "float","bool", "true", "false", "main", "for",
 	"while", "if", "else","return", "void", "scanf", "cin","include","string",
 	"printf", "cout", "switch", "case", "default" ,"then" };
+
 
 bool isNumber(char& c) {
 	return (c >= '0' && c <= '9') ? true : false;
@@ -35,6 +34,111 @@ int getBCExp(string line, int pos) {
 		pos++;
 	}
 	return pos;
+}
+
+void wordChange1() {
+	int pos = 0,j = 0;
+	string elementType, elementValue;
+	while (pos < strlen(lineToken)) {
+		int flag = 0, j = 0;
+		pos = getBC(pos,lineToken);		//排除开头的空白符
+		memset(strToken,  '\0', sizeof(strToken));
+		//符号串
+		if (isLetter(lineToken[pos]) || lineToken[pos] == '_') {
+			while (isLetter(lineToken[pos]) || isNumber(lineToken[pos]) || lineToken[pos] == '_') {
+				strToken[j++] = lineToken[pos++];
+			}
+			//判断是否关键字
+			for (int i = 0; i < sizeof(keyWords) / sizeof(keyWords[0]); i++) {
+				if (!strcmp(strToken, keyWords[i])) {
+					elementType = keyWords[i];
+					elementValue = to_string(i);
+					flag = 1;
+					break;
+				}
+			}
+			if (!flag) {
+				elementType = "ID";
+				elementValue = strToken;
+			}
+
+		}
+		//整形
+		else if (isNumber(lineToken[pos])) {		//三种整数DFA不一致分开读
+			if (lineToken[pos] == '0') {
+				pos++;							//不影响十进制读数
+				regex octCheck("[1234567]");
+				regex hexCheck("[0123456789abcdef]");
+				if (lineToken[pos] == 'x') {		//十六进制 
+					pos++;						//不影响八进制读数
+					while (lineToken[pos] == '0')pos++;		//把先导0读掉
+					while (regex_match(string(1, lineToken[pos]), hexCheck)) {		//第一位符合hex
+						strToken[j++] = lineToken[pos++];
+					}
+					elementType = "Hex";
+					elementValue = strToken;
+				}
+				else if (regex_match(string(1, lineToken[pos]), octCheck)) {		//八进制
+					while (lineToken[pos] == '0')pos++;		//读先导0
+					while (regex_match(string(1, lineToken[pos]), octCheck)) {		//第一位符合oct
+						strToken[j++] = lineToken[pos++];
+						elementType = "Oct";
+						elementValue = strToken;
+					}
+				}
+				else {
+					elementType = "Dec";
+					elementValue = "0";
+				}
+			}
+			else {
+				while (isNumber(lineToken[pos])) {
+					strToken[j++] = lineToken[pos++];
+				}
+				elementType = "Dec";
+				elementValue = strToken;
+			}
+		}
+		//运算符 包括++ +=
+		//如果第一位和 运算符正则匹配
+		else if (regex_match(string(1, lineToken[pos]), operatePattern)) {	//regex_match正则匹配 参数1 -> char 转 string 
+			 //= 或 自身 再向后读一位
+			strToken[j++] = lineToken[pos++];
+			if (lineToken[pos] == '=' || lineToken[pos] == lineToken[pos - 1]) {
+				strToken[j++] = lineToken[pos++];
+			}
+			elementType = strToken;
+			elementValue = "-";
+		}
+		//界符
+		else if (regex_match(string(1, lineToken[pos]), delimiterPattern)) {
+			elementType = string(1, lineToken[pos++]);
+			elementValue = "-";
+		}
+		//错误字符
+
+		printf("<%s , %s>\n", &elementType[0], elementValue.c_str());
+		pos = getBC(pos,lineToken);	//排除末端空白符
+	}
+}
+
+bool readWordFile(const char* wordFile) {
+	FILE* fp = fopen(wordFile, "r");
+	//无判断 文件打开异常会中止程序
+	if (fp == NULL) {
+		cout << string(wordFile) + " Not Exist";
+		return false;
+	}
+	else {
+		memset(lineToken, '\0', sizeof(lineToken));
+		while (fgets(lineToken, 128, fp) != NULL) {
+			wordChange1();
+			memset(lineToken, '\0', sizeof(lineToken));
+		}
+		//文件句柄开了得关
+		fclose(fp);
+	}
+	return true;
 }
 
 string ExpChange(char line[]) {
@@ -131,8 +235,8 @@ pair<string, string> wordChange(string& line, int& linePf) {
 	string elementType, elementValue;	//类型 和 语义值
 	int wordPf = 0;						//遍历完整单词用
 	//一次分析
-	linePf = getBCExp(line, linePf);		//排除开头的空白符
-	memset(strToken, 0, 50);			//清空单词队列
+	linePf = getBCExp(line, linePf);							//排除开头的空白符
+	memset(strToken, 0, sizeof(strToken));			//清空单词队列
 	//符号串
 	if (isLetter(line[linePf]) || line[linePf] == '_') {
 		while (isLetter(line[linePf]) || isNumber(line[linePf]) || line[linePf] == '_') {

@@ -4,13 +4,10 @@
 #include"../include/Common_data.h"
 
 
-class RPNClass {
+class RPNClass: public Grammar_set {
 public:
 	const char* readRPNGrammarFile = "./src/textFile/RPN/RPNGrammarText.txt";
 	const char* readRPNExpressionFile = "./src/textFile/RPN/RPNExpressionWord.txt";
-	//文法结构
-	grammarStruct grammar;
-	std::vector<std::string>Productions;
 
 	RPNClass() {};
 
@@ -33,13 +30,6 @@ public:
 	//启动SLR分析
 	void run_ReadExp_SLR();
 
-	//计算空集
-	void calculate_NullAble();
-	//计算First集合
-	void calculate_First();
-	//计算Follow集合
-	void calculate_Follow();
-
 	//语义动作
 	void semanticAction(int actionIndex, std::pair<std::string, std::string>& proLeftNode);
 	//计算逆波兰式的语义值
@@ -51,9 +41,6 @@ public:
 
 
 private:
-
-	std::unordered_set<std::string>NullAble;
-	std::unordered_map<std::string, std::unordered_set<std::string>>First, Follow;
 
 	std::vector<items_Node>itemsNodeSet{};			//所有项目集
 	std::unordered_map<int, std::vector<std::pair<std::string, std::string>>>Action;		//Action表
