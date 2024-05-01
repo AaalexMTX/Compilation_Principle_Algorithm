@@ -6,27 +6,15 @@
 5. 语法分析程序的设计-自下而上(SLR分析)
 6. 逆波兰式的翻译和计算
 
-## 配置
-1. 报告/模块介绍见 
-   - [实验报告/文档__./doc/report.doc](./doc/report.doc) 
-2. 项目文件config（VS）
-   - 在 .vcxproj文件中完成vs逻辑和物理文件的映射
-   - 在 .vcxproj.filters 中配置文件在VS中的逻辑组织
-   - [详细配置方式__见文档_./doc/config.md](./doc/config.md)
-3. 使用
-   - VS2022
-   - STL操作+OOP封装
-
 ## 效果展示
-### report1--词法分析
-![alt text](./doc/images/image.png)
-### report2--文法IO
-![alt text](./doc/images/image2.png)
-### report3--LL1改造
-![alt text](./doc/images/image3.png)
-
+### 完成对于初始文法的LL(1)文法转换
 包括 左递归消除＋提公因式</br>
-
+例如 **公因式的消除**
+```C++
+A->ab|ac|f      A->aA'|eA''|f
+A->ef|eh;  ---> A'->b|c
+                A"->f|h;
+```
 可识别的结构包括
 ```C++
 //直接左递归
@@ -42,14 +30,7 @@ A->ad|Bc;
 B->aA|bB;
 ```
 
-### report4--LL1分析
-![alt text](./doc/images/image4.png)
-### report5--SLR分析
-
 ### 最终实现对特定文法实现自上而下分析
-![alt text](./doc/images/image5.png)
-![alt text](./doc/images/image6.png)
-
 ```C++
 //这是一个表达式的识别文法
   E->T|E+T;
@@ -64,9 +45,17 @@ B->aA|bB;
 ((1+2)*3+4;       //no 
 1+2+3+(*4+5);     //no
 ```
+## 配置
+1. 报告/模块介绍见 
+   - [实验报告/文档__./doc/report.doc](./doc/report.doc) 
+2. 项目文件config（VS）
+   - 在 .vcxproj文件中完成vs逻辑和物理文件的映射
+   - 在 .vcxproj.filters 中配置文件在VS中的逻辑组织
+   - [详细配置方式__见文档_./doc/config.md](./doc/config.md)
+3. 使用
+   - VS2022
+   - STL操作+OOP封装
 
-### report6--逆波兰式计算
-![alt text](./doc/images/image7.png)
 
 ## 改进
 1. 文件管理略显潦草

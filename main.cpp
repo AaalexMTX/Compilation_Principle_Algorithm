@@ -70,15 +70,15 @@ int main() {
 }
 
 void menu() {
-	cout << "|---编译原理分析系统----|" << endl;
-	cout << "   0. exit " << endl;
-	cout << "   1. 词法分析" << endl;
-	cout << "   2. 文法读入" << endl;
-	cout << "   3. LL1文法改造 " << endl;
-	cout << "   4. LL1分析类版 " << endl;
-	cout << "   5. SLR类版 " << endl;
-	cout << "   6. 逆波兰分析" << endl;
-	cout << "|----------------------|" << endl;
+	cout << "|------编译原理分析系统-------|" << endl;
+	cout << "0. exit " << endl;
+	cout << "1. 词法分析" << endl;
+	cout << "2. 文法读入" << endl;
+	cout << "3. LL1文法改造 " << endl;
+	cout << "4. LL1分析类版 " << endl;
+	cout << "5. SLR类版 " << endl;
+	cout << "6. 逆波兰分析" << endl;
+	cout << "|------------------------|" << endl;
 	cout << "请输入选项:";
 }
 
