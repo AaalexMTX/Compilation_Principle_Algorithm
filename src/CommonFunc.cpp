@@ -110,12 +110,23 @@ void Grammar_set::formatPrint() {
 			}
 		}
 	}
-	cout << endl << "开始符号  S:  " << grammar.S;
+	//CH
+	/*cout << endl << "开始符号  S:  " << grammar.S;
 	cout << endl << "  终结符 Vn:  ";
 	for (unordered_map<string, int>::iterator it = grammar.Vn.begin(); it != grammar.Vn.end();it++) {
 		cout << it->first << " ";
 	}
 	cout << endl << "非终结符 Vt:  ";
+	for (set<string>::iterator it = grammar.Vt.begin(); it != grammar.Vt.end();it++) {
+		cout << *it << " ";
+	}*/
+
+	cout << endl << "start symbol  S:  " << grammar.S;
+	cout << endl << "  Terminator Vn:  ";
+	for (unordered_map<string, int>::iterator it = grammar.Vn.begin(); it != grammar.Vn.end();it++) {
+		cout << it->first << " ";
+	}
+	cout << endl << "non-terminal Vt:  ";
 	for (set<string>::iterator it = grammar.Vt.begin(); it != grammar.Vt.end();it++) {
 		cout << *it << " ";
 	}

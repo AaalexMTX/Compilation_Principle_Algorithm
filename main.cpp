@@ -70,6 +70,20 @@ int main() {
 }
 
 void menu() {
+	cout << "|--Compilation principle analysis system--|" << endl;
+	cout << "	0. exit " << endl;
+	cout << "	1. lexical analysis" << endl;
+	cout << "	2. grammar reading" << endl;
+	cout << "	3. LL1 Grammatical Transformation " << endl;
+	cout << "	4. LL1 Analyse " << endl;
+	cout << "	5. SLR Analyse" << endl;
+	cout << "	6. RPN Analyse" << endl;
+	cout << "|-----------------------------------------|" << endl;
+	cout << "Please enter options:";
+}
+
+//中文版
+void menu_ch() {
 	cout << "|------编译原理分析系统-------|" << endl;
 	cout << "0. exit " << endl;
 	cout << "1. 词法分析" << endl;

@@ -446,7 +446,8 @@ void RPNClass::semanticAction(int actionIndex, pair<string, string>& proLeftNode
 	}
 	switch (actionIndex) {
 	case 0:
-		printf("\n逆波兰式 -> %s", proLeftNode.second.c_str());
+		//printf("\n逆波兰式 -> %s", proLeftNode.second.c_str());
+		printf("\nReverse Polish Notation-> %s", proLeftNode.second.c_str());
 		break;
 	case 1:
 		proLeftNode.second = (End.second + "," + Top.second + "," + "+");
@@ -488,7 +489,8 @@ void RPNClass::SLR_predict_SemanticAnalyse_AnalyseStack(const char* line) {
 	State_Stack.push(0);
 	Symbol_Stack_Semantic.push(std::make_pair("#", "-"));
 
-	printf("    状态栈    |    符号栈    |            语义栈              |        输入串        |\t对应操作\n");
+	printf("  state stack | symbol stack |        semantic stack          |      input string    |\toperation\n");
+	//printf("    状态栈    |    符号栈    |            语义栈              |        输入串        |\t对应操作\n");
 	while (true) {
 		//栈内容的输出
 		stack<int>tempState_stack = State_Stack;

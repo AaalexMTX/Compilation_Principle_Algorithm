@@ -15,7 +15,13 @@
    - [详细配置方式__见文档_./doc/config.md](./doc/config.md)
 3. 使用
    - VS2022
+   - 文件GBK2319编码
    - STL操作+OOP封装
+
+## 运行
+> cd Compilation_Principle_Algorithm/Release
+> ./Compilation_Principle_Algorithm.exe
+
 
 ## 效果展示
 ### report1--词法分析
@@ -81,3 +87,5 @@ B->aA|bB;
 3. ...
    - 用cpp新特性(移动、智能指针)来规范简化操作
    - 几个实验间的方法和结构间有联系，可以考虑 OOP用基类和虚函数再抽象一下
+   - []中文乱码：默认使用GBK2319编码、输出改英文
+   - []编译期间的警告warning

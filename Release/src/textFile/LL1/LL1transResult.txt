@@ -1,0 +1,11 @@
+S->Qc|cS';
+R'''->R'|baR';
+Q->b|Rb;
+R->bcaR'|cR''|aR';
+R'->bcaR'|@;
+S'->ab|@;
+R''->aR''';
+
+开始符号  S:  S
+  终结符 Vn:  S R''' Q R R' S' R'' 
+非终结符 Vt:  a b c 

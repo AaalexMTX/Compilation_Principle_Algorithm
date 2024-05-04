@@ -28,7 +28,7 @@ std::string getFullChar(std::string candidate, int pos);
 int getBC(int pos, char line[]);
 
 //--文法结构
-extern struct grammarStruct {
+struct grammarStruct {
 	std::string S;
 	std::set<std::string>Vt;
 	std::unordered_map<std::string, int>Vn;

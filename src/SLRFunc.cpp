@@ -301,8 +301,8 @@ void SLRClass::SLR_predict_AnalyseStack(string inputExpression) {
 	State_Stack.push(0);
 	Symbol_Stack.push("#");
 	inputExpression += "#";
-
-	printf("    状态栈    |    符号栈    |    输入串    |\t对应操作\n");
+	printf("  state stack | symbol stack |        semantic stack          |      input string    |\toperation\n");
+	//printf("    状态栈    |    符号栈    |    输入串    |\t对应操作\n");
 	while (true) {
 		//栈内容的输出
 		stack<int>tempState_stack = State_Stack;
@@ -396,7 +396,8 @@ void SLRClass::SLR_predict_AnalyseStack(string inputExpression) {
 void SLRClass::run_ReadExp_SLR() {
 	FILE* fp = fopen(readSLRExpressionFile, "r");
 	if (fp == NULL) {
-		cout << "SLR_表达式文件不存在" << endl;
+		//cout << "SLR_表达式文件不存在" << endl;
+		cout << "read SLR Expression File Not Exist \n" << endl;
 	}
 	else {
 		while (fgets(expLineToken, 50, fp) != NULL) {
