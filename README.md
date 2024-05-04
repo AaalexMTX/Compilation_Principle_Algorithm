@@ -21,8 +21,9 @@
 ## 运行
 
 ```bash
-> cd Compilation_Principle_Algorithm/Release
-> ./Compilation_Principle_Algorithm.exe
+git clone https://github.com/AaalexMTX/Compilation_Principle_Algorithm.git
+cd Compilation_Principle_Algorithm/Release
+./Compilation_Principle_Algorithm.exe
 ```
 
 ## 效果展示
